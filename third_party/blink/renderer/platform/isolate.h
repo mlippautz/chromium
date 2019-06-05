@@ -5,11 +5,12 @@
 #ifndef THIRD_PARTY_BLINK_RENDERER_PLATFORM_ISOLATE_H_
 #define THIRD_PARTY_BLINK_RENDERER_PLATFORM_ISOLATE_H_
 
+#include "third_party/blink/renderer/platform/platform_export.h"
 #include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
 
 namespace blink {
 
-class Isolate {
+class PLATFORM_EXPORT Isolate {
  public:
   using CreateFunc = void* (*)();
 

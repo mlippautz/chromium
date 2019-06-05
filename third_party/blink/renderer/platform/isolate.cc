@@ -22,7 +22,9 @@ ThreadSpecific<Isolate*>& GetIsolateCache() {
 
 std::atomic<size_t> Isolate::global_count_ = {0};
 typename Isolate::CreateFunc Isolate::create_funcs_[Isolate::kMaxGlobals];
+constexpr size_t Isolate::kMaxGlobals;
 
+// static
 Isolate* Isolate::Current() {
   if (WTF::IsMainThread()) {
     return g_current_main_thread_isolate;
@@ -31,17 +33,20 @@ Isolate* Isolate::Current() {
   return *GetIsolateCache();
 }
 
+// static
 void Isolate::SetCurrentFromMainThread(Isolate* isolate) {
   DCHECK(WTF::IsMainThread());
   g_current_main_thread_isolate = isolate;
 }
 
+// static
 void Isolate::SetCurrentFromWorker(Isolate* isolate) {
   DCHECK(!WTF::IsMainThread());
   DCHECK(!*GetIsolateCache());
   *GetIsolateCache() = isolate;
 }
 
+// static
 size_t Isolate::RegisterGlobal(CreateFunc create_func) {
   const size_t index = global_count_.fetch_add(1, std::memory_order_relaxed);
   CHECK_LT(index, kMaxGlobals);

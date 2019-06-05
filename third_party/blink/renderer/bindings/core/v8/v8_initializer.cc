@@ -64,6 +64,7 @@
 #include "third_party/blink/renderer/platform/bindings/v8_per_context_data.h"
 #include "third_party/blink/renderer/platform/bindings/v8_private_property.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/trace_event.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/runtime_enabled_features.h"
 #include "third_party/blink/renderer/platform/scheduler/public/cooperative_scheduling_manager.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread.h"
@@ -579,6 +580,8 @@ static void AdjustAmountOfExternalAllocatedMemory(int64_t diff) {
 void V8Initializer::InitializeMainThread(const intptr_t* reference_table) {
   DCHECK(IsMainThread());
 
+  Isolate::SetCurrentFromMainThread(new blink::Isolate);
+
   WTF::ArrayBufferContents::Initialize(AdjustAmountOfExternalAllocatedMemory);
 
   DEFINE_STATIC_LOCAL(ArrayBufferAllocator, array_buffer_allocator, ());
@@ -653,6 +656,7 @@ static void ReportFatalErrorInWorker(const char* location,
 static const int kWorkerMaxStackSize = 500 * 1024;
 
 void V8Initializer::InitializeWorker(v8::Isolate* isolate) {
+  Isolate::SetCurrentFromWorker(new blink::Isolate);
   ThreadState::Current()->RegisterTraceDOMWrappers(
       isolate, V8GCController::TraceDOMWrappers);
   InitializeV8Common(isolate);
