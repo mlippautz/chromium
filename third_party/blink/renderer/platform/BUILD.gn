@@ -1163,6 +1163,8 @@ jumbo_component("platform") {
     "instance_counters.h",
     "instance_counters_memory_dump_provider.cc",
     "instance_counters_memory_dump_provider.h",
+    "isolate.cc",
+    "isolate.h",
     "json/json_parser.cc",
     "json/json_parser.h",
     "json/json_values.cc",
