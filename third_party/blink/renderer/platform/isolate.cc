@@ -12,20 +12,23 @@ namespace blink {
 namespace {
 
 Isolate* g_current_main_thread_isolate = nullptr;
-WTF::ThreadSpecific<Isolate*>* g_worker_thread_isolate = nullptr;
+
+ThreadSpecific<Isolate*>& GetIsolateCache() {
+  DEFINE_THREAD_SAFE_STATIC_LOCAL(ThreadSpecific<Isolate*>, isolate_cache, ());
+  return isolate_cache;
+}
 
 }  // namespace
 
 std::atomic<size_t> Isolate::global_count_ = {0};
 typename Isolate::CreateFunc Isolate::create_funcs_[Isolate::kMaxGlobals];
-typename Isolate::DestroyFunc Isolate::destroy_funcs_[Isolate::kMaxGlobals];
 
 Isolate* Isolate::Current() {
   if (WTF::IsMainThread()) {
     return g_current_main_thread_isolate;
   }
-  DCHECK(g_worker_thread_isolate);
-  return **g_worker_thread_isolate;
+  DCHECK(*GetIsolateCache());
+  return *GetIsolateCache();
 }
 
 void Isolate::SetCurrentFromMainThread(Isolate* isolate) {
@@ -35,18 +38,14 @@ void Isolate::SetCurrentFromMainThread(Isolate* isolate) {
 
 void Isolate::SetCurrentFromWorker(Isolate* isolate) {
   DCHECK(!WTF::IsMainThread());
-  if (!g_worker_thread_isolate) {
-    g_worker_thread_isolate = new ThreadSpecific<Isolate*>();
-  }
-  **g_worker_thread_isolate = isolate;
+  DCHECK(!*GetIsolateCache());
+  *GetIsolateCache() = isolate;
 }
 
-size_t Isolate::RegisterGlobal(CreateFunc create_func,
-                               DestroyFunc destroy_func) {
-  const size_t index = global_count_.fetch_add(1);
+size_t Isolate::RegisterGlobal(CreateFunc create_func) {
+  const size_t index = global_count_.fetch_add(1, std::memory_order_relaxed);
   CHECK_LT(index, kMaxGlobals);
   create_funcs_[index] = create_func;
-  destroy_funcs_[index] = destroy_func;
   return index;
 }
 
