@@ -42,6 +42,11 @@ class PLATFORM_EXPORT Isolate {
   bool globals_initialized_[kMaxGlobals] = {false};
 };
 
+// These macros can only be used from function scope, and not from global
+// scope.
+
+// This is spiritually equivalen to DEFINE_STATIC_LOCAL or
+// DEFINE_THREAD_SAFE_STATIC_LOCAL.
 #define DEFINE_ISOLATE_BOUND(Type, Name, Arguments)      \
   struct Name##Helper {                                  \
     static void* Create() { return new Type Arguments; } \
@@ -49,6 +54,21 @@ class PLATFORM_EXPORT Isolate {
   static size_t Name##_offset =                          \
       Isolate::RegisterGlobal(&Name##Helper::Create);    \
   Type& Name = *static_cast<Type*>(                      \
+      Isolate::Current()->GetOrCreateGlobal(Name##_offset));
+
+// This is spiritually equivalent to DEFINE_STATIC_REF.
+#define DEFINE_ISOLATE_BOUND_REF(Type, Name, Arguments) \
+  struct Name##Helper {                                 \
+    static void* Create() {                             \
+      scoped_refptr<Type> o = Arguments;                \
+      if (o)                                            \
+        o->AddRef();                                    \
+      return o.get();                                   \
+    }                                                   \
+  };                                                    \
+  static size_t Name##_offset =                         \
+      Isolate_::RegisterGlobal(&Name##Helper::Create);  \
+  Type* name = *static_cast<Type*>(                     \
       Isolate::Current()->GetOrCreateGlobal(Name##_offset));
 
 }  // namespace blink
