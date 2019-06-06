@@ -49,11 +49,22 @@ void PersistentRegion::EnsurePersistentNodeSlots(void* self,
   for (int i = 0; i < PersistentNodeSlots::kSlotCount; ++i) {
     PersistentNode* node = &slots->slot_[i];
     node->SetFreeListNext(free_list_head_);
+    node->SetIndex(i);
     free_list_head_ = node;
     DCHECK(node->IsUnused());
   }
   slots->next_ = slots_;
+  slots->region_ = this;
   slots_ = slots;
+}
+
+PersistentRegion* PersistentNode::GetRegion() const {
+  Address base = reinterpret_cast<Address>(const_cast<PersistentNode*>(this));
+  // Base of slot_[kSlotCount].
+  base -= sizeof(PersistentNode) * index_;
+  // Two pointers back, see PersistentNodeSlots.
+  base -= sizeof(void*) * 2;
+  return reinterpret_cast<PersistentRegion*>(*reinterpret_cast<Address*>(base));
 }
 
 void PersistentRegion::ReleasePersistentNode(

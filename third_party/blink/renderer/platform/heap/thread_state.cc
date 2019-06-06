@@ -61,6 +61,7 @@
 #include "third_party/blink/renderer/platform/instrumentation/tracing/trace_event.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/web_memory_allocator_dump.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/web_process_memory_dump.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread_scheduler.h"
 #include "third_party/blink/renderer/platform/wtf/allocator/partitions.h"
@@ -186,7 +187,7 @@ void ThreadState::RunTerminationGC() {
 
   // PrepareForThreadStateTermination removes strong references so no need to
   // call it on CrossThreadWeakPersistentRegion.
-  ProcessHeap::GetCrossThreadPersistentRegion()
+  ProcessHeap::GetCrossThreadPersistentRegion(Isolate::Current())
       .PrepareForThreadStateTermination(this);
 
   // Do thread local GC's as long as the count of thread local Persistents
@@ -304,7 +305,8 @@ void ThreadState::VisitPersistents(Visitor* visitor) {
         ThreadHeapStatsCollector::kVisitCrossThreadPersistents);
     // See ProcessHeap::CrossThreadPersistentMutex().
     MutexLocker persistent_lock(ProcessHeap::CrossThreadPersistentMutex());
-    ProcessHeap::GetCrossThreadPersistentRegion().TracePersistentNodes(visitor);
+    ProcessHeap::GetCrossThreadPersistentRegion(Isolate::Current())
+        .TracePersistentNodes(visitor);
   }
   {
     ThreadHeapStatsCollector::Scope inner_stats_scope(
@@ -314,8 +316,8 @@ void ThreadState::VisitPersistents(Visitor* visitor) {
 }
 
 void ThreadState::VisitWeakPersistents(Visitor* visitor) {
-  ProcessHeap::GetCrossThreadWeakPersistentRegion().TracePersistentNodes(
-      visitor);
+  ProcessHeap::GetCrossThreadWeakPersistentRegion(Isolate::Current())
+      .TracePersistentNodes(visitor);
   weak_persistent_region_->TracePersistentNodes(visitor);
 }
 

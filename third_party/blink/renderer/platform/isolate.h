@@ -14,6 +14,8 @@ class PLATFORM_EXPORT Isolate {
  public:
   using CreateFunc = void* (*)();
 
+  explicit Isolate(Isolate*);
+
   static Isolate* Current();
   static void SetCurrentFromMainThread(Isolate*);
   static void SetCurrentFromWorker(Isolate*);
@@ -25,6 +27,8 @@ class PLATFORM_EXPORT Isolate {
                                          : CreateGlobal(index);
   }
 
+  Isolate* ParentIsolate() const;
+
  private:
   static constexpr size_t kMaxGlobals = 512;
 
@@ -33,6 +37,7 @@ class PLATFORM_EXPORT Isolate {
   static std::atomic<size_t> global_count_;
   static CreateFunc create_funcs_[kMaxGlobals];
 
+  Isolate* parent_ = nullptr;
   void* globals_[kMaxGlobals] = {0};
   bool globals_initialized_[kMaxGlobals] = {false};
 };

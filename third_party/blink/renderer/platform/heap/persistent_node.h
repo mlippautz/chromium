@@ -9,6 +9,7 @@
 #include <memory>
 #include "third_party/blink/renderer/platform/heap/process_heap.h"
 #include "third_party/blink/renderer/platform/heap/thread_state.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/platform_export.h"
 #include "third_party/blink/renderer/platform/wtf/allocator.h"
 #include "third_party/blink/renderer/platform/wtf/assertions.h"
@@ -24,7 +25,7 @@ enum WeaknessPersistentConfiguration {
   kWeakPersistentConfiguration
 };
 
-class PersistentNode final {
+class PLATFORM_EXPORT PersistentNode final {
   DISALLOW_NEW();
 
  public:
@@ -81,6 +82,10 @@ class PersistentNode final {
 
   void* Self() const { return self_; }
 
+  void SetIndex(int index) { index_ = index; }
+
+  PersistentRegion* GetRegion() const;
+
  private:
   // If this PersistentNode is in use:
   //   - m_self points to the corresponding Persistent handle.
@@ -90,6 +95,7 @@ class PersistentNode final {
   //   - m_trace is nullptr.
   void* self_;
   TraceCallback trace_;
+  int index_;
 };
 
 struct PersistentNodeSlots final {
@@ -97,6 +103,7 @@ struct PersistentNodeSlots final {
 
  private:
   static const int kSlotCount = 256;
+  PersistentRegion* region_;
   PersistentNodeSlots* next_;
   PersistentNode slot_[kSlotCount];
   friend class PersistentRegion;
@@ -234,7 +241,7 @@ class PLATFORM_EXPORT CrossThreadPersistentRegion final {
     return persistent_region_.AllocatePersistentNode(self, trace);
   }
 
-  void FreePersistentNode(PersistentNode* node) {
+  static void FreePersistentNode(PersistentNode* node) {
 #if DCHECK_IS_ON()
     ProcessHeap::CrossThreadPersistentMutex().AssertAcquired();
 #endif
@@ -250,7 +257,8 @@ class PLATFORM_EXPORT CrossThreadPersistentRegion final {
     // check for this.
     if (!node)
       return;
-    persistent_region_.FreePersistentNode(node);
+    auto* region = node->GetRegion();
+    region->FreePersistentNode(node);
   }
 
   void TracePersistentNodes(Visitor* visitor) {
@@ -322,8 +330,10 @@ void CrossThreadPersistentNodePtr<weakness_configuration>::Initialize(
     TraceCallback trace_callback) {
   CrossThreadPersistentRegion& region =
       weakness_configuration == kWeakPersistentConfiguration
-          ? ProcessHeap::GetCrossThreadWeakPersistentRegion()
-          : ProcessHeap::GetCrossThreadPersistentRegion();
+          ? ProcessHeap::GetCrossThreadWeakPersistentRegion(
+                Isolate::Current()->ParentIsolate())
+          : ProcessHeap::GetCrossThreadPersistentRegion(
+                Isolate::Current()->ParentIsolate());
   MutexLocker lock(ProcessHeap::CrossThreadPersistentMutex());
   PersistentNode* node = region.AllocatePersistentNode(owner, trace_callback);
   ptr_.store(node, std::memory_order_release);
@@ -343,12 +353,9 @@ void CrossThreadPersistentNodePtr<weakness_configuration>::Uninitialize() {
   if (!ptr_.load(std::memory_order_acquire))
     return;
 
-  CrossThreadPersistentRegion& region =
-      weakness_configuration == kWeakPersistentConfiguration
-          ? ProcessHeap::GetCrossThreadWeakPersistentRegion()
-          : ProcessHeap::GetCrossThreadPersistentRegion();
   MutexLocker lock(ProcessHeap::CrossThreadPersistentMutex());
-  region.FreePersistentNode(ptr_.load(std::memory_order_relaxed));
+  CrossThreadPersistentRegion::FreePersistentNode(
+      ptr_.load(std::memory_order_relaxed));
   ptr_.store(nullptr, std::memory_order_release);
 }
 
@@ -357,10 +364,14 @@ void CrossThreadPersistentNodePtr<weakness_configuration>::ClearWithLockHeld() {
 #if DCHECK_IS_ON()
   ProcessHeap::CrossThreadPersistentMutex().AssertAcquired();
 #endif
+  // Only cleared from the main thread.
+  DCHECK(IsMainThread());
   CrossThreadPersistentRegion& region =
       weakness_configuration == kWeakPersistentConfiguration
-          ? ProcessHeap::GetCrossThreadWeakPersistentRegion()
-          : ProcessHeap::GetCrossThreadPersistentRegion();
+          ? ProcessHeap::GetCrossThreadWeakPersistentRegion(
+                Isolate::Current()->ParentIsolate())
+          : ProcessHeap::GetCrossThreadPersistentRegion(
+                Isolate::Current()->ParentIsolate());
   region.FreePersistentNode(ptr_.load(std::memory_order_relaxed));
   ptr_.store(nullptr, std::memory_order_release);
 }

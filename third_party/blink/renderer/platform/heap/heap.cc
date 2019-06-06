@@ -49,6 +49,7 @@
 #include "third_party/blink/renderer/platform/instrumentation/tracing/trace_event.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/web_memory_allocator_dump.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/web_process_memory_dump.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/allocator/partitions.h"
 #include "third_party/blink/renderer/platform/wtf/assertions.h"
 #include "third_party/blink/renderer/platform/wtf/leak_annotations.h"
@@ -487,7 +488,7 @@ void ThreadHeap::PoisonAllHeaps() {
   // CrossThreadPersistents in unmarked objects may be accessed from other
   // threads (e.g. in CrossThreadPersistentRegion::shouldTracePersistent) and
   // that would be fine.
-  ProcessHeap::GetCrossThreadPersistentRegion()
+  ProcessHeap::GetCrossThreadPersistentRegion(Isolate::Current())
       .UnpoisonCrossThreadPersistents();
 }
 
@@ -500,7 +501,7 @@ void ThreadHeap::PoisonEagerArena() {
   // CrossThreadPersistents in unmarked objects may be accessed from other
   // threads (e.g. in CrossThreadPersistentRegion::shouldTracePersistent) and
   // that would be fine.
-  ProcessHeap::GetCrossThreadPersistentRegion()
+  ProcessHeap::GetCrossThreadPersistentRegion(Isolate::Current())
       .UnpoisonCrossThreadPersistents();
 }
 #endif

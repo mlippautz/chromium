@@ -32,6 +32,8 @@
 
 namespace blink {
 
+class Isolate;
+
 // Specifies how the near V8 heap limit event was handled by the callback.
 // This enum is also used for UMA histogram recording. It must be kept in sync
 // with the corresponding enum in tools/metrics/histograms/enums.xml. See that
@@ -60,7 +62,7 @@ class CORE_EXPORT V8Initializer {
       NearV8HeapLimitCallback callback);
 
   static void InitializeMainThread(const intptr_t* reference_table);
-  static void InitializeWorker(v8::Isolate*);
+  static void InitializeWorker(v8::Isolate*, blink::Isolate* parent_isolate);
 
   static void ReportRejectedPromisesOnMainThread();
   static void MessageHandlerInMainThread(v8::Local<v8::Message>,

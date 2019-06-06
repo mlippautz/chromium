@@ -10,6 +10,7 @@
 #include "third_party/blink/renderer/core/dom/document.h"
 #include "third_party/blink/renderer/platform/bindings/script_wrappable.h"
 #include "third_party/blink/renderer/platform/bindings/wrapper_type_info.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/runtime_enabled_features.h"
 #include "third_party/blink/renderer/platform/wtf/allocator.h"
 
@@ -591,7 +592,8 @@ void V8EmbedderGraphBuilder::VisitBlinkRoots() {
     EnsureRootState(root);
     ParentScope parent(this, root);
     MutexLocker persistent_lock(ProcessHeap::CrossThreadPersistentMutex());
-    ProcessHeap::GetCrossThreadPersistentRegion().TracePersistentNodes(this);
+    ProcessHeap::GetCrossThreadPersistentRegion(Isolate::Current())
+        .TracePersistentNodes(this);
   }
 }
 

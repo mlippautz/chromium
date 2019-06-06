@@ -60,5 +60,11 @@ void* Isolate::CreateGlobal(size_t index) {
   return globals_[index];
 }
 
+Isolate::Isolate(Isolate* parent) : parent_(parent) {}
+
+Isolate* Isolate::ParentIsolate() const {
+  return (parent_) ? parent_ : const_cast<Isolate*>(this);
+}
+
 }  // namespace blink
 

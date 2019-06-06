@@ -13,6 +13,7 @@
 namespace blink {
 
 class CrossThreadPersistentRegion;
+class Isolate;
 
 class PLATFORM_EXPORT ProcessHeap {
   STATIC_ONLY(ProcessHeap);
@@ -20,8 +21,9 @@ class PLATFORM_EXPORT ProcessHeap {
  public:
   static void Init();
 
-  static CrossThreadPersistentRegion& GetCrossThreadPersistentRegion();
-  static CrossThreadPersistentRegion& GetCrossThreadWeakPersistentRegion();
+  static CrossThreadPersistentRegion& GetCrossThreadPersistentRegion(Isolate*);
+  static CrossThreadPersistentRegion& GetCrossThreadWeakPersistentRegion(
+      Isolate*);
 
   // Access to the CrossThreadPersistentRegion from multiple threads has to be
   // prevented as allocation, freeing, and iteration of nodes may otherwise

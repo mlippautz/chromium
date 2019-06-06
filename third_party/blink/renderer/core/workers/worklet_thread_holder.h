@@ -9,6 +9,7 @@
 #include "third_party/blink/renderer/core/core_export.h"
 #include "third_party/blink/renderer/core/workers/worker_backing_thread.h"
 #include "third_party/blink/renderer/core/workers/worker_backing_thread_startup_data.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/scheduler/public/post_cross_thread_task.h"
 #include "third_party/blink/renderer/platform/web_thread_supporting_gc.h"
 
@@ -66,8 +67,11 @@ class WorkletThreadHolder {
 
   void InitializeOnWorkletThread() {
     MutexLocker locker(HolderInstanceMutex());
-    thread_->InitializeOnBackingThread(
-        WorkerBackingThreadStartupData::CreateDefault());
+    DCHECK(IsMainThread());
+
+    auto thread_startup_data = WorkerBackingThreadStartupData::CreateDefault();
+    thread_startup_data.parent_isolate = Isolate::Current();
+    thread_->InitializeOnBackingThread(thread_startup_data);
   }
 
   void ShutdownAndWait() {

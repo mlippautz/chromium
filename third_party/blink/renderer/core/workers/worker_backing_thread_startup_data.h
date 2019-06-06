@@ -10,6 +10,8 @@
 
 namespace blink {
 
+class Isolate;
+
 // WorkerBackingThreadStartupData contains parameters for starting
 // WorkerBackingThread.
 struct WorkerBackingThreadStartupData {
@@ -29,6 +31,7 @@ struct WorkerBackingThreadStartupData {
 
   HeapLimitMode heap_limit_mode;
   AtomicsWaitMode atomics_wait_mode;
+  Isolate* parent_isolate = nullptr;
 };
 
 // This allows to pass base::Optional<WorkerBackingThreadStartupData> across

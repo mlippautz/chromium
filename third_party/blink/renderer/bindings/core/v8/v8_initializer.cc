@@ -580,7 +580,7 @@ static void AdjustAmountOfExternalAllocatedMemory(int64_t diff) {
 void V8Initializer::InitializeMainThread(const intptr_t* reference_table) {
   DCHECK(IsMainThread());
 
-  Isolate::SetCurrentFromMainThread(new blink::Isolate);
+  Isolate::SetCurrentFromMainThread(new Isolate(nullptr));
 
   WTF::ArrayBufferContents::Initialize(AdjustAmountOfExternalAllocatedMemory);
 
@@ -655,8 +655,9 @@ static void ReportFatalErrorInWorker(const char* location,
 // base/threading/platform_thread_mac.mm for details.
 static const int kWorkerMaxStackSize = 500 * 1024;
 
-void V8Initializer::InitializeWorker(v8::Isolate* isolate) {
-  Isolate::SetCurrentFromWorker(new blink::Isolate);
+void V8Initializer::InitializeWorker(v8::Isolate* isolate,
+                                     Isolate* parent_isolate) {
+  Isolate::SetCurrentFromWorker(new Isolate(parent_isolate));
   ThreadState::Current()->RegisterTraceDOMWrappers(
       isolate, V8GCController::TraceDOMWrappers);
   InitializeV8Common(isolate);

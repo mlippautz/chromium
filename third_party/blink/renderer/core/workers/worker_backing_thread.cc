@@ -73,7 +73,7 @@ void WorkerBackingThread::InitializeOnBackingThread(
       V8PerIsolateData::V8ContextSnapshotMode::kDontUseSnapshot);
   scheduler->SetV8Isolate(isolate_);
   AddWorkerIsolate(isolate_);
-  V8Initializer::InitializeWorker(isolate_);
+  V8Initializer::InitializeWorker(isolate_, startup_data.parent_isolate);
 
   if (RuntimeEnabledFeatures::V8IdleTasksEnabled()) {
     V8PerIsolateData::EnableIdleTasks(

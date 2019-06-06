@@ -8,6 +8,7 @@
 #include "third_party/blink/renderer/platform/heap/gc_info.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
 #include "third_party/blink/renderer/platform/heap/persistent_node.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/assertions.h"
 
 namespace blink {
@@ -42,16 +43,30 @@ void ProcessHeap::ResetHeapCounters() {
   total_allocated_object_size_ = 0;
 }
 
-CrossThreadPersistentRegion& ProcessHeap::GetCrossThreadPersistentRegion() {
-  DEFINE_THREAD_SAFE_STATIC_LOCAL(CrossThreadPersistentRegion,
-                                  persistent_region, ());
-  return persistent_region;
+CrossThreadPersistentRegion& ProcessHeap::GetCrossThreadPersistentRegion(
+    Isolate* isolate) {
+  // Expanded DEFINE_ISOLATE_BOUND manually to allow passing Isolate.
+  struct Helper {
+    static void* Create() { return new CrossThreadPersistentRegion(); }
+  };
+  static size_t offset = Isolate::RegisterGlobal(&Helper::Create);
+  CrossThreadPersistentRegion& region =
+      *static_cast<CrossThreadPersistentRegion*>(
+          isolate->GetOrCreateGlobal(offset));
+  return region;
 }
 
-CrossThreadPersistentRegion& ProcessHeap::GetCrossThreadWeakPersistentRegion() {
-  DEFINE_THREAD_SAFE_STATIC_LOCAL(CrossThreadPersistentRegion,
-                                  persistent_region, ());
-  return persistent_region;
+CrossThreadPersistentRegion& ProcessHeap::GetCrossThreadWeakPersistentRegion(
+    Isolate* isolate) {
+  // Expanded DEFINE_ISOLATE_BOUND manually to allow passing Isolate.
+  struct Helper {
+    static void* Create() { return new CrossThreadPersistentRegion(); }
+  };
+  static size_t offset = Isolate::RegisterGlobal(&Helper::Create);
+  CrossThreadPersistentRegion& region =
+      *static_cast<CrossThreadPersistentRegion*>(
+          isolate->GetOrCreateGlobal(offset));
+  return region;
 }
 
 Mutex& ProcessHeap::CrossThreadPersistentMutex() {
