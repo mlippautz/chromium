@@ -183,6 +183,9 @@ void Platform::InitializeCommon(Platform* platform,
                                 std::unique_ptr<Thread> main_thread) {
   WTF::Initialize(CallOnMainThreadFunction);
 
+  blink::Isolate* blink_isolate = new Isolate(nullptr);
+  Isolate::SetCurrentFromMainThread(blink_isolate);
+
   Thread::SetMainThread(std::move(main_thread));
 
   ProcessHeap::Init();

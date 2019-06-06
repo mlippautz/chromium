@@ -580,9 +580,6 @@ static void AdjustAmountOfExternalAllocatedMemory(int64_t diff) {
 void V8Initializer::InitializeMainThread(const intptr_t* reference_table) {
   DCHECK(IsMainThread());
 
-  blink::Isolate* blink_isolate = new Isolate(nullptr);
-  Isolate::SetCurrentFromMainThread(blink_isolate);
-
   WTF::ArrayBufferContents::Initialize(AdjustAmountOfExternalAllocatedMemory);
 
   DEFINE_ISOLATE_BOUND(ArrayBufferAllocator, array_buffer_allocator, ());
@@ -612,7 +609,7 @@ void V8Initializer::InitializeMainThread(const intptr_t* reference_table) {
 
   ThreadState::MainThreadState()->RegisterTraceDOMWrappers(
       isolate, V8GCController::TraceDOMWrappers);
-  ThreadState::MainThreadState()->SetBlinkIsolate(blink_isolate);
+  ThreadState::MainThreadState()->SetBlinkIsolate(Isolate::Current());
   InitializeV8Common(isolate);
 
   isolate->SetOOMErrorHandler(ReportOOMErrorInMainThread);
@@ -663,7 +660,7 @@ void V8Initializer::InitializeWorker(v8::Isolate* isolate,
   Isolate::SetCurrentFromWorker(blink_isolate);
   ThreadState::Current()->RegisterTraceDOMWrappers(
       isolate, V8GCController::TraceDOMWrappers);
-  ThreadState::Current()->SetBlinkIsolate(blink_isolate);
+  ThreadState::Current()->SetBlinkIsolate(Isolate::Current());
   InitializeV8Common(isolate);
 
   isolate->AddMessageListenerWithErrorLevel(
