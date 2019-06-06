@@ -250,8 +250,8 @@ CanvasRenderingContext* OffscreenCanvas::GetCanvasRenderingContext(
 
 OffscreenCanvas::ContextFactoryVector&
 OffscreenCanvas::RenderingContextFactories() {
-  DEFINE_ISOLATE_BOUND(ContextFactoryVector, context_factories,
-                       (CanvasRenderingContext::kMaxValue));
+  DEFINE_STATIC_LOCAL(ContextFactoryVector, context_factories,
+                      (CanvasRenderingContext::kMaxValue));
   return context_factories;
 }
 
