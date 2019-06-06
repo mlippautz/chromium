@@ -66,6 +66,7 @@
 #include "third_party/blink/renderer/platform/heap/handle.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/trace_event.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/web_test_support.h"
 
 namespace blink {
@@ -296,7 +297,7 @@ void WebPagePopupImpl::Initialize(WebViewImpl* web_view,
       main_settings.GetPrimaryPointerType());
 
   ProvideContextFeaturesTo(*page_, std::make_unique<PagePopupFeaturesClient>());
-  DEFINE_STATIC_LOCAL(Persistent<LocalFrameClient>, empty_local_frame_client,
+  DEFINE_ISOLATE_BOUND(Persistent<LocalFrameClient>, empty_local_frame_client,
                       (MakeGarbageCollected<EmptyLocalFrameClient>()));
   auto* frame = MakeGarbageCollected<LocalFrame>(empty_local_frame_client,
                                                  *page_, nullptr);

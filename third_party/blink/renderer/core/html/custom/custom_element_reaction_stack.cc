@@ -9,13 +9,14 @@
 #include "third_party/blink/renderer/core/html/custom/custom_element_reaction_queue.h"
 #include "third_party/blink/renderer/platform/bindings/microtask.h"
 #include "third_party/blink/renderer/platform/heap/persistent.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
 namespace {
 
 Persistent<CustomElementReactionStack>& GetCustomElementReactionStack() {
-  DEFINE_STATIC_LOCAL(Persistent<CustomElementReactionStack>,
+  DEFINE_ISOLATE_BOUND(Persistent<CustomElementReactionStack>,
                       custom_element_reaction_stack,
                       (MakeGarbageCollected<CustomElementReactionStack>()));
   return custom_element_reaction_stack;

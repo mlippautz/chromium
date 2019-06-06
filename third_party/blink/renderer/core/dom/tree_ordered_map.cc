@@ -38,6 +38,7 @@
 #include "third_party/blink/renderer/core/html/html_slot_element.h"
 #include "third_party/blink/renderer/core/html_names.h"
 #include "third_party/blink/renderer/platform/heap/persistent.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
@@ -150,7 +151,7 @@ const HeapVector<Member<Element>>& TreeOrderedMap::GetAllElementsById(
     const AtomicString& key,
     const TreeScope& scope) const {
   DCHECK(key);
-  DEFINE_STATIC_LOCAL(Persistent<HeapVector<Member<Element>>>, empty_vector,
+  DEFINE_ISOLATE_BOUND(Persistent<HeapVector<Member<Element>>>, empty_vector,
                       (MakeGarbageCollected<HeapVector<Member<Element>>>()));
 
   Map::iterator it = map_.find(key);

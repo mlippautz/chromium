@@ -48,6 +48,7 @@
 #include "third_party/blink/renderer/core/timing/window_performance.h"
 #include "third_party/blink/renderer/platform/bindings/exception_state.h"
 #include "third_party/blink/renderer/platform/heap/heap_allocator.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/network/network_state_notifier.h"
 #include "third_party/blink/renderer/platform/runtime_enabled_features.h"
 #include "third_party/blink/renderer/platform/weborigin/security_origin.h"
@@ -58,7 +59,7 @@ namespace {
 
 using PluginSet = HeapHashSet<Member<WebPluginContainerImpl>>;
 PluginSet& PluginsPendingDispose() {
-  DEFINE_STATIC_LOCAL(Persistent<PluginSet>, set,
+  DEFINE_ISOLATE_BOUND(Persistent<PluginSet>, set,
                       (MakeGarbageCollected<PluginSet>()));
   return *set;
 }
@@ -138,7 +139,7 @@ bool ShouldLazilyLoadFrame(const Document& document,
 
 SubframeLoadingDisabler::SubtreeRootSet&
 SubframeLoadingDisabler::DisabledSubtreeRoots() {
-  DEFINE_STATIC_LOCAL(SubtreeRootSet, nodes, ());
+  DEFINE_ISOLATE_BOUND(SubtreeRootSet, nodes, ());
   return nodes;
 }
 

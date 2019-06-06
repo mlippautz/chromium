@@ -26,6 +26,7 @@
 #include "third_party/blink/renderer/core/css/css_value_pool.h"
 
 #include "third_party/blink/renderer/platform/heap/handle.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/threading.h"
 
 namespace blink {
@@ -33,7 +34,7 @@ namespace blink {
 using namespace cssvalue;
 
 CSSValuePool& CssValuePool() {
-  DEFINE_THREAD_SAFE_STATIC_LOCAL(ThreadSpecific<Persistent<CSSValuePool>>,
+  DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<CSSValuePool>>,
                                   thread_specific_pool, ());
   Persistent<CSSValuePool>& pool_handle = *thread_specific_pool;
   if (!pool_handle) {

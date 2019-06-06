@@ -229,7 +229,7 @@ namespace {
 
 static RejectedPromises& RejectedPromisesOnMainThread() {
   DCHECK(IsMainThread());
-  DEFINE_STATIC_LOCAL(scoped_refptr<RejectedPromises>, rejected_promises,
+  DEFINE_ISOLATE_BOUND(scoped_refptr<RejectedPromises>, rejected_promises,
                       (RejectedPromises::Create()));
   return *rejected_promises;
 }
@@ -585,7 +585,7 @@ void V8Initializer::InitializeMainThread(const intptr_t* reference_table) {
 
   WTF::ArrayBufferContents::Initialize(AdjustAmountOfExternalAllocatedMemory);
 
-  DEFINE_STATIC_LOCAL(ArrayBufferAllocator, array_buffer_allocator, ());
+  DEFINE_ISOLATE_BOUND(ArrayBufferAllocator, array_buffer_allocator, ());
   gin::IsolateHolder::Initialize(gin::IsolateHolder::kNonStrictMode,
                                  &array_buffer_allocator, reference_table);
 

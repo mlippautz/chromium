@@ -31,13 +31,14 @@
 #include "third_party/blink/renderer/modules/mediasource/media_source_registry.h"
 
 #include "third_party/blink/renderer/modules/mediasource/media_source.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/weborigin/kurl.h"
 
 namespace blink {
 
 MediaSourceRegistry& MediaSourceRegistry::Registry() {
   DCHECK(IsMainThread());
-  DEFINE_STATIC_LOCAL(MediaSourceRegistry, instance, ());
+  DEFINE_ISOLATE_BOUND(MediaSourceRegistry, instance, ());
   return instance;
 }
 

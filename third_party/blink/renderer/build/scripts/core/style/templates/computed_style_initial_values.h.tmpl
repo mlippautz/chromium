@@ -9,6 +9,7 @@
 #include "third_party/blink/renderer/core/scroll/scroll_types.h"
 #include "third_party/blink/renderer/core/style/computed_style_constants.h"
 #include "third_party/blink/renderer/core/style/filter_operations.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/theme_types.h"
 {% for include in includes %}
 #include "{{include}}"
@@ -121,7 +122,7 @@ class ComputedStyleInitialValues{
 
  private:
   static const FilterOperations& InitialFilterInternal() {
-    DEFINE_STATIC_LOCAL(Persistent<FilterOperationsWrapper>, ops,
+    DEFINE_ISOLATE_BOUND(Persistent<FilterOperationsWrapper>, ops,
         (MakeGarbageCollected<FilterOperationsWrapper>()));
     return ops->Operations();
   }

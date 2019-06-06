@@ -14,6 +14,7 @@
 #include "third_party/blink/renderer/core/testing/sim/sim_request.h"
 #include "third_party/blink/renderer/core/testing/sim/sim_test.h"
 #include "third_party/blink/renderer/platform/geometry/int_rect.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/testing/unit_test_helpers.h"
 
 namespace blink {
@@ -42,7 +43,7 @@ class TextAutosizerTest : public RenderingTest {
     return GetTextAutosizerClient();
   }
   TextAutosizerClient& GetTextAutosizerClient() const {
-    DEFINE_STATIC_LOCAL(Persistent<TextAutosizerClient>, client,
+    DEFINE_ISOLATE_BOUND(Persistent<TextAutosizerClient>, client,
                         (MakeGarbageCollected<TextAutosizerClient>()));
     return *client;
   }

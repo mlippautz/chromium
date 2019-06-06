@@ -5,6 +5,7 @@
 #include "third_party/blink/renderer/core/loader/long_task_detector.h"
 
 #include "third_party/blink/public/platform/platform.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread.h"
 
 namespace blink {
@@ -13,7 +14,7 @@ constexpr base::TimeDelta LongTaskDetector::kLongTaskThreshold;
 
 // static
 LongTaskDetector& LongTaskDetector::Instance() {
-  DEFINE_STATIC_LOCAL(Persistent<LongTaskDetector>, long_task_detector,
+  DEFINE_ISOLATE_BOUND(Persistent<LongTaskDetector>, long_task_detector,
                       (MakeGarbageCollected<LongTaskDetector>()));
   DCHECK(IsMainThread());
   return *long_task_detector;

@@ -105,6 +105,7 @@
 #include "third_party/blink/renderer/platform/graphics/canvas_resource_provider.h"
 #include "third_party/blink/renderer/platform/graphics/gpu/shared_gpu_context.h"
 #include "third_party/blink/renderer/platform/graphics/graphics_context.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/runtime_enabled_features.h"
 #include "third_party/blink/renderer/platform/scheduler/public/post_cross_thread_task.h"
 #include "third_party/blink/renderer/platform/wtf/functional.h"
@@ -132,7 +133,7 @@ Mutex& WebGLContextLimitMutex() {
 using WebGLRenderingContextBaseSet =
     HeapHashSet<WeakMember<WebGLRenderingContextBase>>;
 WebGLRenderingContextBaseSet& ActiveContexts() {
-  DEFINE_THREAD_SAFE_STATIC_LOCAL(
+  DEFINE_ISOLATE_BOUND(
       ThreadSpecific<Persistent<WebGLRenderingContextBaseSet>>, active_contexts,
       ());
   Persistent<WebGLRenderingContextBaseSet>& active_contexts_persistent =
@@ -148,7 +149,7 @@ WebGLRenderingContextBaseSet& ActiveContexts() {
 using WebGLRenderingContextBaseMap =
     HeapHashMap<WeakMember<WebGLRenderingContextBase>, int>;
 WebGLRenderingContextBaseMap& ForciblyEvictedContexts() {
-  DEFINE_THREAD_SAFE_STATIC_LOCAL(
+  DEFINE_ISOLATE_BOUND(
       ThreadSpecific<Persistent<WebGLRenderingContextBaseMap>>,
       forcibly_evicted_contexts, ());
   Persistent<WebGLRenderingContextBaseMap>&

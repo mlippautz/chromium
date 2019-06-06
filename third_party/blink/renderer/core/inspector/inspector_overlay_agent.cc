@@ -81,6 +81,7 @@
 #include "third_party/blink/renderer/platform/graphics/paint/foreign_layer_display_item.h"
 #include "third_party/blink/renderer/platform/graphics/paint/paint_record_builder.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/keyboard_codes.h"
 #include "v8/include/v8.h"
 
@@ -845,7 +846,7 @@ void InspectorOverlayAgent::EnsureOverlayPageCreated() {
   overlay_settings.SetPluginsEnabled(false);
   overlay_settings.SetLoadsImagesAutomatically(true);
 
-  DEFINE_STATIC_LOCAL(Persistent<LocalFrameClient>, dummy_local_frame_client,
+  DEFINE_ISOLATE_BOUND(Persistent<LocalFrameClient>, dummy_local_frame_client,
                       (MakeGarbageCollected<EmptyLocalFrameClient>()));
   auto* frame = MakeGarbageCollected<LocalFrame>(dummy_local_frame_client,
                                                  *overlay_page_, nullptr);
@@ -861,7 +862,7 @@ void InspectorOverlayAgent::LoadFrameForTool() {
 
   frame_resource_name_ = inspect_tool_->GetDataResourceName();
 
-  DEFINE_STATIC_LOCAL(Persistent<LocalFrameClient>, dummy_local_frame_client,
+  DEFINE_ISOLATE_BOUND(Persistent<LocalFrameClient>, dummy_local_frame_client,
                       (MakeGarbageCollected<EmptyLocalFrameClient>()));
   auto* frame = MakeGarbageCollected<LocalFrame>(dummy_local_frame_client,
                                                  *overlay_page_, nullptr);

@@ -286,6 +286,7 @@
 #include "third_party/blink/renderer/platform/instrumentation/resource_coordinator/document_resource_coordinator.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/trace_event.h"
 #include "third_party/blink/renderer/platform/instrumentation/use_counter.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/language.h"
 #include "third_party/blink/renderer/platform/loader/fetch/null_resource_fetcher_properties.h"
 #include "third_party/blink/renderer/platform/loader/fetch/resource_fetcher.h"
@@ -5136,7 +5137,7 @@ void Document::DispatchEventsForPrinting() {
 }
 
 Document::EventFactorySet& Document::EventFactories() {
-  DEFINE_STATIC_LOCAL(EventFactorySet, event_factory, ());
+  DEFINE_ISOLATE_BOUND(EventFactorySet, event_factory, ());
   return event_factory;
 }
 
@@ -8152,7 +8153,7 @@ template class CORE_TEMPLATE_EXPORT Supplement<Document>;
 
 #ifndef NDEBUG
 static WeakDocumentSet& liveDocumentSet() {
-  DEFINE_STATIC_LOCAL(blink::Persistent<WeakDocumentSet>, set,
+  DEFINE_ISOLATE_BOUND(blink::Persistent<WeakDocumentSet>, set,
                       (blink::MakeGarbageCollected<WeakDocumentSet>()));
   return *set;
 }

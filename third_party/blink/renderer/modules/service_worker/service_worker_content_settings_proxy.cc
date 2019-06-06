@@ -6,6 +6,8 @@
 
 #include <memory>
 
+#include "third_party/blink/renderer/platform/isolate.h"
+
 namespace blink {
 
 ServiceWorkerContentSettingsProxy::ServiceWorkerContentSettingsProxy(
@@ -32,7 +34,7 @@ bool ServiceWorkerContentSettingsProxy::AllowIndexedDB(
 // Each worker has a dedicated thread so this is safe.
 mojom::blink::WorkerContentSettingsProxyPtr&
 ServiceWorkerContentSettingsProxy::GetService() {
-  DEFINE_THREAD_SAFE_STATIC_LOCAL(
+  DEFINE_ISOLATE_BOUND(
       ThreadSpecific<mojom::blink::WorkerContentSettingsProxyPtr>,
       content_settings_instance_host, ());
   if (!content_settings_instance_host.IsSet()) {

@@ -118,6 +118,7 @@
 #include "third_party/blink/renderer/platform/instrumentation/tracing/trace_event.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/traced_value.h"
 #include "third_party/blink/renderer/platform/instrumentation/use_counter.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/runtime_enabled_features.h"
 #include "third_party/blink/renderer/platform/wtf/allocator/partitions.h"
 #include "third_party/blink/renderer/platform/wtf/hash_set.h"
@@ -137,7 +138,7 @@ namespace {
 // bunch more logic for transferring the callbacks between Pages when elements
 // are moved around.
 ScrollCustomizationCallbacks& GetScrollCustomizationCallbacks() {
-  DEFINE_STATIC_LOCAL(Persistent<ScrollCustomizationCallbacks>,
+  DEFINE_ISOLATE_BOUND(Persistent<ScrollCustomizationCallbacks>,
                       scroll_customization_callbacks,
                       (MakeGarbageCollected<ScrollCustomizationCallbacks>()));
   return *scroll_customization_callbacks;
@@ -192,7 +193,7 @@ static_assert(sizeof(Node) <= sizeof(SameSizeAsNode), "Node should stay small");
 #if DUMP_NODE_STATISTICS
 using WeakNodeSet = HeapHashSet<WeakMember<Node>>;
 static WeakNodeSet& liveNodeSet() {
-  DEFINE_STATIC_LOCAL(WeakNodeSet, set, (new WeakNodeSet));
+  DEFINE_ISOLATE_BOUND(WeakNodeSet, set, (new WeakNodeSet));
   return set;
 }
 #endif
@@ -2411,7 +2412,7 @@ void Node::RemoveAllEventListenersRecursively() {
 using EventTargetDataMap =
     HeapHashMap<WeakMember<Node>, Member<EventTargetData>>;
 static EventTargetDataMap& GetEventTargetDataMap() {
-  DEFINE_STATIC_LOCAL(Persistent<EventTargetDataMap>, map,
+  DEFINE_ISOLATE_BOUND(Persistent<EventTargetDataMap>, map,
                       (MakeGarbageCollected<EventTargetDataMap>()));
   return *map;
 }

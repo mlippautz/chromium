@@ -45,6 +45,7 @@
 #include "third_party/blink/renderer/platform/bindings/exception_state.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
 #include "third_party/blink/renderer/platform/instrumentation/use_counter.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/text/string_builder.h"
 
 namespace blink {
@@ -227,7 +228,7 @@ void LogUnimplementedPropertyID(const CSSProperty& property) {
 
 const Vector<const CSSProperty*>&
 CSSComputedStyleDeclaration::ComputableProperties() {
-  DEFINE_STATIC_LOCAL(Vector<const CSSProperty*>, properties, ());
+  DEFINE_ISOLATE_BOUND(Vector<const CSSProperty*>, properties, ());
   if (properties.IsEmpty()) {
     CSSProperty::FilterEnabledCSSPropertiesIntoVector(
         kComputedPropertyArray, base::size(kComputedPropertyArray), properties);

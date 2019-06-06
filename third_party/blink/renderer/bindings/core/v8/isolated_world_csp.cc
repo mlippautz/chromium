@@ -12,6 +12,7 @@
 #include "third_party/blink/renderer/platform/bindings/dom_wrapper_world.h"
 #include "third_party/blink/renderer/platform/heap/garbage_collected.h"
 #include "third_party/blink/renderer/platform/instrumentation/use_counter.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/runtime_enabled_features.h"
 #include "third_party/blink/renderer/platform/weborigin/kurl.h"
 #include "third_party/blink/renderer/platform/weborigin/security_origin.h"
@@ -122,7 +123,7 @@ class IsolatedWorldCSPDelegate final
 // static
 IsolatedWorldCSP& IsolatedWorldCSP::Get() {
   DCHECK(IsMainThread());
-  DEFINE_STATIC_LOCAL(IsolatedWorldCSP, g_isolated_world_csp, ());
+  DEFINE_ISOLATE_BOUND(IsolatedWorldCSP, g_isolated_world_csp, ());
   return g_isolated_world_csp;
 }
 

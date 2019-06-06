@@ -32,6 +32,7 @@
 
 #include "third_party/blink/renderer/core/dom/element.h"
 #include "third_party/blink/renderer/platform/heap/persistent.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
@@ -41,7 +42,7 @@ typedef HeapHashMap<WeakMember<Element>, Member<V0CustomElementObserver>>
     ElementObserverMap;
 
 static ElementObserverMap& ElementObservers() {
-  DEFINE_STATIC_LOCAL(Persistent<ElementObserverMap>, map,
+  DEFINE_ISOLATE_BOUND(Persistent<ElementObserverMap>, map,
                       (MakeGarbageCollected<ElementObserverMap>()));
   return *map;
 }

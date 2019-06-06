@@ -35,6 +35,7 @@
 #include "third_party/blink/public/platform/platform.h"
 #include "third_party/blink/renderer/platform/bindings/v8_per_isolate_data.h"
 #include "third_party/blink/renderer/platform/histogram.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/memory_pressure_listener.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread_scheduler.h"
 #include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
@@ -107,7 +108,7 @@ void V8GCForContextDispose::NotifyIdle() {
 }
 
 V8GCForContextDispose& V8GCForContextDispose::Instance() {
-  DEFINE_STATIC_LOCAL(V8GCForContextDispose, static_instance, ());
+  DEFINE_ISOLATE_BOUND(V8GCForContextDispose, static_instance, ());
   return static_instance;
 }
 

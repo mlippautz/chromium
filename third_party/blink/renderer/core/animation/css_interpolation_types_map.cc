@@ -48,6 +48,7 @@
 #include "third_party/blink/renderer/core/css/property_registry.h"
 #include "third_party/blink/renderer/core/feature_policy/layout_animations_policy.h"
 #include "third_party/blink/renderer/core/frame/local_frame.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
@@ -75,8 +76,8 @@ const InterpolationTypes& CSSInterpolationTypesMap::Get(
       HashMap<PropertyHandle, std::unique_ptr<const InterpolationTypes>>;
   // TODO(iclelland): Combine these two hashmaps into a single map on
   // std::pair<bool,property>
-  DEFINE_STATIC_LOCAL(ApplicableTypesMap, all_applicable_types_map, ());
-  DEFINE_STATIC_LOCAL(ApplicableTypesMap, composited_applicable_types_map, ());
+  DEFINE_ISOLATE_BOUND(ApplicableTypesMap, all_applicable_types_map, ());
+  DEFINE_ISOLATE_BOUND(ApplicableTypesMap, composited_applicable_types_map, ());
 
   ApplicableTypesMap& applicable_types_map =
       allow_all_animations_ ? all_applicable_types_map

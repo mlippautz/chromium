@@ -108,6 +108,7 @@
 #include "third_party/blink/renderer/platform/bindings/exception_messages.h"
 #include "third_party/blink/renderer/platform/bindings/microtask.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/loader/fetch/resource_fetcher.h"
 #include "third_party/blink/renderer/platform/timer.h"
 #include "third_party/blink/renderer/platform/weborigin/security_origin.h"
@@ -130,13 +131,13 @@ static void UpdateSuddenTerminationStatus(
 using DOMWindowSet = HeapHashCountedSet<WeakMember<LocalDOMWindow>>;
 
 static DOMWindowSet& WindowsWithUnloadEventListeners() {
-  DEFINE_STATIC_LOCAL(Persistent<DOMWindowSet>,
+  DEFINE_ISOLATE_BOUND(Persistent<DOMWindowSet>,
                       windows_with_unload_event_listeners, (new DOMWindowSet));
   return *windows_with_unload_event_listeners;
 }
 
 static DOMWindowSet& WindowsWithBeforeUnloadEventListeners() {
-  DEFINE_STATIC_LOCAL(Persistent<DOMWindowSet>,
+  DEFINE_ISOLATE_BOUND(Persistent<DOMWindowSet>,
                       windows_with_before_unload_event_listeners,
                       (new DOMWindowSet));
   return *windows_with_before_unload_event_listeners;

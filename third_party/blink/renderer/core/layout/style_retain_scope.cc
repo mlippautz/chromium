@@ -5,6 +5,7 @@
 #include "third_party/blink/renderer/core/layout/style_retain_scope.h"
 
 #include "third_party/blink/renderer/core/style/computed_style.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/thread_specific.h"
 
 namespace blink {
@@ -12,7 +13,7 @@ namespace blink {
 namespace {
 
 StyleRetainScope** CurrentPtr() {
-  DEFINE_THREAD_SAFE_STATIC_LOCAL(ThreadSpecific<StyleRetainScope*>, current,
+  DEFINE_ISOLATE_BOUND(ThreadSpecific<StyleRetainScope*>, current,
                                   ());
   return &*current;
 }

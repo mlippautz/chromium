@@ -11,6 +11,7 @@
 #include "third_party/blink/public/platform/platform.h"
 #include "third_party/blink/renderer/platform/heap/handle.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/web_memory_allocator_dump.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
 #include "third_party/blink/renderer/platform/wtf/threading.h"
 
@@ -35,7 +36,7 @@ void DumpMemoryTotals(base::trace_event::ProcessMemoryDump* memory_dump) {
 }  // namespace
 
 BlinkGCMemoryDumpProvider* BlinkGCMemoryDumpProvider::Instance() {
-  DEFINE_STATIC_LOCAL(BlinkGCMemoryDumpProvider, instance, ());
+  DEFINE_ISOLATE_BOUND(BlinkGCMemoryDumpProvider, instance, ());
   return &instance;
 }
 

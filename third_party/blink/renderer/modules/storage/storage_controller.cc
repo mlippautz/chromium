@@ -13,6 +13,7 @@
 #include "third_party/blink/renderer/core/frame/local_frame.h"
 #include "third_party/blink/renderer/modules/storage/cached_storage_area.h"
 #include "third_party/blink/renderer/modules/storage/storage_namespace.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread_scheduler.h"
 #include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
@@ -34,7 +35,7 @@ mojom::blink::StoragePartitionServicePtr GetAndCreateStorageInterface() {
 
 // static
 StorageController* StorageController::GetInstance() {
-  DEFINE_STATIC_LOCAL(StorageController, gCachedStorageAreaController,
+  DEFINE_ISOLATE_BOUND(StorageController, gCachedStorageAreaController,
                       (Thread::MainThread()->Scheduler()->IPCTaskRunner(),
                        GetAndCreateStorageInterface(),
                        base::SysInfo::IsLowEndDevice()

@@ -10,6 +10,7 @@
 #include "third_party/blink/renderer/core/scroll/scrollbar_theme.h"
 #include "third_party/blink/renderer/core/typed_arrays/dom_array_buffer.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/loader/fetch/memory_cache.h"
 
 namespace blink {
@@ -36,7 +37,7 @@ void LocalFrameClientWithParent::Detached(FrameDetachType) {
 }
 
 RenderingTestChromeClient& RenderingTest::GetChromeClient() const {
-  DEFINE_STATIC_LOCAL(Persistent<RenderingTestChromeClient>, client,
+  DEFINE_ISOLATE_BOUND(Persistent<RenderingTestChromeClient>, client,
                       (MakeGarbageCollected<RenderingTestChromeClient>()));
   return *client;
 }

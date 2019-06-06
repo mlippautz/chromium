@@ -63,6 +63,7 @@
 #include "third_party/blink/renderer/platform/histogram.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/trace_event.h"
 #include "third_party/blink/renderer/platform/instrumentation/use_counter.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/weborigin/security_origin.h"
 #include "third_party/blink/renderer/platform/wtf/assertions.h"
 #include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
@@ -177,7 +178,7 @@ void ScriptController::DisableEval(const String& error_message) {
 namespace {
 
 Vector<const char*>& RegisteredExtensionNames() {
-  DEFINE_STATIC_LOCAL(Vector<const char*>, extension_names, ());
+  DEFINE_ISOLATE_BOUND(Vector<const char*>, extension_names, ());
   return extension_names;
 }
 

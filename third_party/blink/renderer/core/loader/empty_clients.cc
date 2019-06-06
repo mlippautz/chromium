@@ -41,11 +41,12 @@
 #include "third_party/blink/renderer/core/html/forms/file_chooser.h"
 #include "third_party/blink/renderer/core/html/forms/html_form_element.h"
 #include "third_party/blink/renderer/core/loader/document_loader.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
 void FillWithEmptyClients(Page::PageClients& page_clients) {
-  DEFINE_STATIC_LOCAL(Persistent<ChromeClient>, dummy_chrome_client,
+  DEFINE_ISOLATE_BOUND(Persistent<ChromeClient>, dummy_chrome_client,
                       (MakeGarbageCollected<EmptyChromeClient>()));
   page_clients.chrome_client = dummy_chrome_client;
 }

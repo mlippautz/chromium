@@ -34,6 +34,7 @@
 #include "third_party/blink/renderer/core/loader/document_loader.h"
 #include "third_party/blink/renderer/core/loader/frame_loader.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/runtime_enabled_features.h"
 
 namespace blink {
@@ -106,7 +107,7 @@ const CSSPropertyValueSet*
 HTMLHtmlElement::AdditionalPresentationAttributeStyle() {
   if (const CSSValue* color_scheme =
           GetDocument().GetStyleEngine().GetMetaColorSchemeValue()) {
-    DEFINE_STATIC_LOCAL(
+    DEFINE_ISOLATE_BOUND(
         Persistent<MutableCSSPropertyValueSet>, color_scheme_style,
         (MakeGarbageCollected<MutableCSSPropertyValueSet>(kHTMLStandardMode)));
     color_scheme_style->SetProperty(CSSPropertyID::kColorScheme, *color_scheme);

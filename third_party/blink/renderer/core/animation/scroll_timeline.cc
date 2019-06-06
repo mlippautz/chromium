@@ -15,13 +15,14 @@
 #include "third_party/blink/renderer/core/paint/paint_layer.h"
 #include "third_party/blink/renderer/core/paint/paint_layer_scrollable_area.h"
 #include "third_party/blink/renderer/platform/geometry/length_functions.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
 namespace {
 using ActiveScrollTimelineSet = HeapHashCountedSet<WeakMember<Node>>;
 ActiveScrollTimelineSet& GetActiveScrollTimelineSet() {
-  DEFINE_STATIC_LOCAL(Persistent<ActiveScrollTimelineSet>, set,
+  DEFINE_ISOLATE_BOUND(Persistent<ActiveScrollTimelineSet>, set,
                       (new ActiveScrollTimelineSet));
   return *set;
 }

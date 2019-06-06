@@ -47,6 +47,7 @@
 #include "third_party/blink/renderer/core/timing/event_timing.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/trace_event.h"
 #include "third_party/blink/renderer/platform/instrumentation/use_counter.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
@@ -82,7 +83,7 @@ void EventDispatcher::DispatchSimulatedClick(
   // before dispatchSimulatedClick() returns. This vector is here just to
   // prevent the code from running into an infinite recursion of
   // dispatchSimulatedClick().
-  DEFINE_STATIC_LOCAL(Persistent<HeapHashSet<Member<Node>>>,
+  DEFINE_ISOLATE_BOUND(Persistent<HeapHashSet<Member<Node>>>,
                       nodes_dispatching_simulated_clicks,
                       (MakeGarbageCollected<HeapHashSet<Member<Node>>>()));
 

@@ -11,6 +11,7 @@
 #include "third_party/blink/renderer/platform/bindings/v8_per_isolate_data.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/trace_event.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/traced_value.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/text/string_builder.h"
 
 namespace blink {
@@ -141,7 +142,7 @@ String RuntimeCallStats::ToString() const {
 
 // static
 void RuntimeCallStats::SetRuntimeCallStatsForTesting() {
-  DEFINE_STATIC_LOCAL(RuntimeCallStats, s_rcs_for_testing,
+  DEFINE_ISOLATE_BOUND(RuntimeCallStats, s_rcs_for_testing,
                       (base::DefaultTickClock::GetInstance()));
   g_runtime_call_stats_for_testing =
       static_cast<RuntimeCallStats*>(&s_rcs_for_testing);

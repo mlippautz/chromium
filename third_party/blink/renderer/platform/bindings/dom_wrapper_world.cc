@@ -35,6 +35,7 @@
 
 #include "third_party/blink/renderer/platform/bindings/dom_data_store.h"
 #include "third_party/blink/renderer/platform/bindings/v8_per_isolate_data.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/weborigin/security_origin.h"
 #include "third_party/blink/renderer/platform/wtf/hash_traits.h"
 #include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
@@ -96,7 +97,7 @@ DOMWrapperWorld::DOMWrapperWorld(v8::Isolate* isolate,
 
 DOMWrapperWorld& DOMWrapperWorld::MainWorld() {
   DCHECK(IsMainThread());
-  DEFINE_STATIC_REF(
+  DEFINE_ISOLATE_BOUND_REF(
       DOMWrapperWorld, cached_main_world,
       (DOMWrapperWorld::Create(v8::Isolate::GetCurrent(), WorldType::kMain)));
   return *cached_main_world;
@@ -162,7 +163,7 @@ typedef HashMap<int, scoped_refptr<SecurityOrigin>>
     IsolatedWorldSecurityOriginMap;
 static IsolatedWorldSecurityOriginMap& IsolatedWorldSecurityOrigins() {
   DCHECK(IsMainThread());
-  DEFINE_STATIC_LOCAL(IsolatedWorldSecurityOriginMap, map, ());
+  DEFINE_ISOLATE_BOUND(IsolatedWorldSecurityOriginMap, map, ());
   return map;
 }
 
@@ -188,7 +189,7 @@ void DOMWrapperWorld::SetIsolatedWorldSecurityOrigin(
 typedef HashMap<int, String> IsolatedWorldHumanReadableNameMap;
 static IsolatedWorldHumanReadableNameMap& IsolatedWorldHumanReadableNames() {
   DCHECK(IsMainThread());
-  DEFINE_STATIC_LOCAL(IsolatedWorldHumanReadableNameMap, map, ());
+  DEFINE_ISOLATE_BOUND(IsolatedWorldHumanReadableNameMap, map, ());
   return map;
 }
 

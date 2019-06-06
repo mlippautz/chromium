@@ -36,6 +36,7 @@
 #include "base/time/default_tick_clock.h"
 #include "third_party/blink/renderer/core/frame/local_frame.h"
 #include "third_party/blink/renderer/core/frame/settings.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/runtime_enabled_features.h"
 #include "third_party/blink/renderer/platform/wtf/math_extras.h"
 #include "third_party/blink/renderer/platform/wtf/thread_specific.h"
@@ -72,7 +73,7 @@ class HeapSizeCache {
   }
 
   static HeapSizeCache& ForCurrentThread() {
-    DEFINE_THREAD_SAFE_STATIC_LOCAL(ThreadSpecific<HeapSizeCache>,
+    DEFINE_ISOLATE_BOUND(ThreadSpecific<HeapSizeCache>,
                                     heap_size_cache, ());
     return *heap_size_cache;
   }

@@ -100,6 +100,7 @@
 #include "third_party/blink/renderer/core/scroll/smooth_scroll_sequencer.h"
 #include "third_party/blink/renderer/platform/graphics/graphics_layer.h"
 #include "third_party/blink/renderer/platform/graphics/paint/drawing_recorder.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
@@ -2568,7 +2569,7 @@ void PaintLayerScrollableArea::PreventRelayoutScope::ResetRelayoutNeeded() {
 
 HeapVector<Member<PaintLayerScrollableArea>>&
 PaintLayerScrollableArea::PreventRelayoutScope::NeedsRelayoutList() {
-  DEFINE_STATIC_LOCAL(
+  DEFINE_ISOLATE_BOUND(
       Persistent<HeapVector<Member<PaintLayerScrollableArea>>>,
       needs_relayout_list,
       (MakeGarbageCollected<HeapVector<Member<PaintLayerScrollableArea>>>()));
@@ -2608,7 +2609,7 @@ void PaintLayerScrollableArea::DelayScrollOffsetClampScope::
 
 HeapVector<Member<PaintLayerScrollableArea>>&
 PaintLayerScrollableArea::DelayScrollOffsetClampScope::NeedsClampList() {
-  DEFINE_STATIC_LOCAL(
+  DEFINE_ISOLATE_BOUND(
       Persistent<HeapVector<Member<PaintLayerScrollableArea>>>,
       needs_clamp_list,
       (MakeGarbageCollected<HeapVector<Member<PaintLayerScrollableArea>>>()));

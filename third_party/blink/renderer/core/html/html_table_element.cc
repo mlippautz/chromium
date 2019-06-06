@@ -45,6 +45,7 @@
 #include "third_party/blink/renderer/platform/bindings/exception_state.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
 #include "third_party/blink/renderer/platform/instrumentation/use_counter.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/weborigin/referrer.h"
 #include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
 
@@ -470,7 +471,7 @@ HTMLTableElement::AdditionalPresentationAttributeStyle() {
     // Setting the border to 'hidden' allows it to win over any border
     // set on the table's cells during border-conflict resolution.
     if (rules_attr_ != kUnsetRules) {
-      DEFINE_STATIC_LOCAL(Persistent<CSSPropertyValueSet>, solid_border_style,
+      DEFINE_ISOLATE_BOUND(Persistent<CSSPropertyValueSet>, solid_border_style,
                           (CreateBorderStyle(CSSValueID::kHidden)));
       return solid_border_style;
     }
@@ -478,11 +479,11 @@ HTMLTableElement::AdditionalPresentationAttributeStyle() {
   }
 
   if (border_color_attr_) {
-    DEFINE_STATIC_LOCAL(Persistent<CSSPropertyValueSet>, solid_border_style,
+    DEFINE_ISOLATE_BOUND(Persistent<CSSPropertyValueSet>, solid_border_style,
                         (CreateBorderStyle(CSSValueID::kSolid)));
     return solid_border_style;
   }
-  DEFINE_STATIC_LOCAL(Persistent<CSSPropertyValueSet>, outset_border_style,
+  DEFINE_ISOLATE_BOUND(Persistent<CSSPropertyValueSet>, outset_border_style,
                       (CreateBorderStyle(CSSValueID::kOutset)));
   return outset_border_style;
 }
@@ -590,11 +591,11 @@ const CSSPropertyValueSet* HTMLTableElement::AdditionalGroupStyle(bool rows) {
     return nullptr;
 
   if (rows) {
-    DEFINE_STATIC_LOCAL(Persistent<CSSPropertyValueSet>, row_border_style,
+    DEFINE_ISOLATE_BOUND(Persistent<CSSPropertyValueSet>, row_border_style,
                         (CreateGroupBorderStyle(true)));
     return row_border_style;
   }
-  DEFINE_STATIC_LOCAL(Persistent<CSSPropertyValueSet>, column_border_style,
+  DEFINE_ISOLATE_BOUND(Persistent<CSSPropertyValueSet>, column_border_style,
                       (CreateGroupBorderStyle(false)));
   return column_border_style;
 }

@@ -17,6 +17,7 @@
 #include "third_party/blink/renderer/core/html/imports/html_imports_controller.h"
 #include "third_party/blink/renderer/core/loader/document_loader.h"
 #include "third_party/blink/renderer/core/page/page.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/runtime_enabled_features.h"
 
 namespace blink {
@@ -181,9 +182,9 @@ bool CSSParserContext::operator==(const CSSParserContext& other) const {
 
 const CSSParserContext* StrictCSSParserContext(
     SecureContextMode secure_context_mode) {
-  DEFINE_THREAD_SAFE_STATIC_LOCAL(ThreadSpecific<Persistent<CSSParserContext>>,
+  DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<CSSParserContext>>,
                                   strict_context_pool, ());
-  DEFINE_THREAD_SAFE_STATIC_LOCAL(ThreadSpecific<Persistent<CSSParserContext>>,
+  DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<CSSParserContext>>,
                                   secure_strict_context_pool, ());
 
   Persistent<CSSParserContext>& context =

@@ -7,6 +7,7 @@
 #include <memory>
 #include "third_party/blink/renderer/platform/bindings/v8_binding.h"
 #include "third_party/blink/renderer/platform/bindings/v8_per_context_data.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/weborigin/kurl.h"
 #include "third_party/blink/renderer/platform/wtf/hash_map.h"
 #include "third_party/blink/renderer/platform/wtf/text/string_hash.h"
@@ -23,14 +24,14 @@ typedef HashMap<int,
 
 static DOMActivityLoggerMapForMainWorld& DomActivityLoggersForMainWorld() {
   DCHECK(IsMainThread());
-  DEFINE_STATIC_LOCAL(DOMActivityLoggerMapForMainWorld, map, ());
+  DEFINE_ISOLATE_BOUND(DOMActivityLoggerMapForMainWorld, map, ());
   return map;
 }
 
 static DOMActivityLoggerMapForIsolatedWorld&
 DomActivityLoggersForIsolatedWorld() {
   DCHECK(IsMainThread());
-  DEFINE_STATIC_LOCAL(DOMActivityLoggerMapForIsolatedWorld, map, ());
+  DEFINE_ISOLATE_BOUND(DOMActivityLoggerMapForIsolatedWorld, map, ());
   return map;
 }
 

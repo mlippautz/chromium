@@ -33,6 +33,7 @@
 #include "third_party/blink/renderer/core/html/custom/v0_custom_element_callback_queue.h"
 #include "third_party/blink/renderer/core/html/custom/v0_custom_element_scheduler.h"
 #include "third_party/blink/renderer/platform/heap/persistent.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
@@ -42,7 +43,7 @@ wtf_size_t V0CustomElementProcessingStack::element_queue_start_ = 0;
 wtf_size_t V0CustomElementProcessingStack::element_queue_end_ = kNumSentinels;
 
 V0CustomElementProcessingStack& V0CustomElementProcessingStack::Instance() {
-  DEFINE_STATIC_LOCAL(Persistent<V0CustomElementProcessingStack>, instance,
+  DEFINE_ISOLATE_BOUND(Persistent<V0CustomElementProcessingStack>, instance,
                       (MakeGarbageCollected<V0CustomElementProcessingStack>()));
   return *instance;
 }

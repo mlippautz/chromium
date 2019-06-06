@@ -8,6 +8,7 @@
 #include <limits>
 #include "third_party/blink/renderer/platform/heap/handle.h"
 #include "third_party/blink/renderer/platform/heap/persistent.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/allocator.h"
 #include "third_party/blink/renderer/platform/wtf/hash_map.h"
 
@@ -107,7 +108,7 @@ class WeakIdentifierMap final
   WeakIdentifierMap<T, ##__VA_ARGS__>&                                  \
   WeakIdentifierMap<T, ##__VA_ARGS__>::Instance() {                     \
     using RefType = WeakIdentifierMap<T, ##__VA_ARGS__>;                \
-    DEFINE_STATIC_LOCAL(                                                \
+    DEFINE_ISOLATE_BOUND(                                                \
         Persistent<RefType>, map_instance,                              \
         (MakeGarbageCollected<WeakIdentifierMap<T, ##__VA_ARGS__>>())); \
     return *map_instance;                                               \

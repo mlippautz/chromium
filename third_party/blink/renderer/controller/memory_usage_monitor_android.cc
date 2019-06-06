@@ -9,6 +9,7 @@
 #include <unistd.h>
 
 #include "third_party/blink/public/platform/platform.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
@@ -29,7 +30,7 @@ static MemoryUsageMonitor* g_instance_for_testing = nullptr;
 
 // static
 MemoryUsageMonitor& MemoryUsageMonitor::Instance() {
-  DEFINE_STATIC_LOCAL(MemoryUsageMonitorAndroid, monitor, ());
+  DEFINE_ISOLATE_BOUND(MemoryUsageMonitorAndroid, monitor, ());
   return g_instance_for_testing ? *g_instance_for_testing : monitor;
 }
 

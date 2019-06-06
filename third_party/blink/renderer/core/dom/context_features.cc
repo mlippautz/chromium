@@ -29,6 +29,7 @@
 #include <memory>
 #include "third_party/blink/renderer/core/dom/document.h"
 #include "third_party/blink/renderer/core/page/page.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
 
 namespace blink {
@@ -40,7 +41,7 @@ std::unique_ptr<ContextFeaturesClient> ContextFeaturesClient::Empty() {
 const char ContextFeatures::kSupplementName[] = "ContextFeatures";
 
 ContextFeatures& ContextFeatures::DefaultSwitch() {
-  DEFINE_STATIC_LOCAL(
+  DEFINE_ISOLATE_BOUND(
       Persistent<ContextFeatures>, instance,
       (MakeGarbageCollected<ContextFeatures>(ContextFeaturesClient::Empty())));
   return *instance;

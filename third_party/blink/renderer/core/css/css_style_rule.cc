@@ -30,6 +30,7 @@
 #include "third_party/blink/renderer/core/css/style_rule_css_style_declaration.h"
 #include "third_party/blink/renderer/core/execution_context/execution_context.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/text/string_builder.h"
 
 namespace blink {
@@ -37,7 +38,7 @@ namespace blink {
 using SelectorTextCache = HeapHashMap<WeakMember<const CSSStyleRule>, String>;
 
 static SelectorTextCache& GetSelectorTextCache() {
-  DEFINE_STATIC_LOCAL(Persistent<SelectorTextCache>, cache,
+  DEFINE_ISOLATE_BOUND(Persistent<SelectorTextCache>, cache,
                       (MakeGarbageCollected<SelectorTextCache>()));
   return *cache;
 }

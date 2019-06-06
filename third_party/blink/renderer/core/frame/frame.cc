@@ -50,6 +50,7 @@
 #include "third_party/blink/renderer/core/probe/core_probes.h"
 #include "third_party/blink/renderer/platform/instance_counters.h"
 #include "third_party/blink/renderer/platform/instrumentation/use_counter.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/loader/fetch/resource_error.h"
 #include "third_party/blink/renderer/platform/wtf/assertions.h"
 
@@ -140,7 +141,7 @@ HTMLFrameOwnerElement* Frame::DeprecatedLocalOwner() const {
 }
 
 static ChromeClient& GetEmptyChromeClient() {
-  DEFINE_STATIC_LOCAL(Persistent<EmptyChromeClient>, client,
+  DEFINE_ISOLATE_BOUND(Persistent<EmptyChromeClient>, client,
                       (MakeGarbageCollected<EmptyChromeClient>()));
   return *client;
 }

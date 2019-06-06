@@ -49,6 +49,7 @@
 #include "third_party/blink/renderer/platform/bindings/v8_per_isolate_data.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
 #include "third_party/blink/renderer/platform/histogram.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread.h"
 #include "third_party/blink/renderer/platform/wtf/assertions.h"
 #include "third_party/blink/renderer/platform/wtf/functional.h"
@@ -80,7 +81,7 @@ class EndOfTaskRunner : public Thread::TaskObserver {
 Thread::TaskObserver* g_end_of_task_runner = nullptr;
 
 BlinkInitializer& GetBlinkInitializer() {
-  DEFINE_STATIC_LOCAL(std::unique_ptr<BlinkInitializer>, initializer,
+  DEFINE_ISOLATE_BOUND(std::unique_ptr<BlinkInitializer>, initializer,
                       (std::make_unique<BlinkInitializer>()));
   return *initializer;
 }

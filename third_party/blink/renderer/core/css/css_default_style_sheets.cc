@@ -39,26 +39,27 @@
 #include "third_party/blink/renderer/core/mathml_names.h"
 #include "third_party/blink/renderer/platform/data_resource_helper.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/runtime_enabled_features.h"
 #include "third_party/blink/renderer/platform/wtf/leak_annotations.h"
 
 namespace blink {
 
 CSSDefaultStyleSheets& CSSDefaultStyleSheets::Instance() {
-  DEFINE_STATIC_LOCAL(Persistent<CSSDefaultStyleSheets>,
+  DEFINE_ISOLATE_BOUND(Persistent<CSSDefaultStyleSheets>,
                       css_default_style_sheets,
                       (MakeGarbageCollected<CSSDefaultStyleSheets>()));
   return *css_default_style_sheets;
 }
 
 static const MediaQueryEvaluator& ScreenEval() {
-  DEFINE_STATIC_LOCAL(Persistent<MediaQueryEvaluator>, static_screen_eval,
+  DEFINE_ISOLATE_BOUND(Persistent<MediaQueryEvaluator>, static_screen_eval,
                       (MakeGarbageCollected<MediaQueryEvaluator>("screen")));
   return *static_screen_eval;
 }
 
 static const MediaQueryEvaluator& PrintEval() {
-  DEFINE_STATIC_LOCAL(Persistent<MediaQueryEvaluator>, static_print_eval,
+  DEFINE_ISOLATE_BOUND(Persistent<MediaQueryEvaluator>, static_print_eval,
                       (MakeGarbageCollected<MediaQueryEvaluator>("print")));
   return *static_print_eval;
 }

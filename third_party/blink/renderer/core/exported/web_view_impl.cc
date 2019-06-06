@@ -156,6 +156,7 @@
 #include "third_party/blink/renderer/platform/image-decoders/image_decoder.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/trace_event.h"
 #include "third_party/blink/renderer/platform/instrumentation/use_counter.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/keyboard_codes.h"
 #include "third_party/blink/renderer/platform/loader/fetch/unique_identifier.h"
 #include "third_party/blink/renderer/platform/runtime_enabled_features.h"
@@ -225,7 +226,7 @@ void WebView::DidExitModalLoop() {
 
 // static
 HashSet<WebViewImpl*>& WebViewImpl::AllInstances() {
-  DEFINE_STATIC_LOCAL(HashSet<WebViewImpl*>, all_instances, ());
+  DEFINE_ISOLATE_BOUND(HashSet<WebViewImpl*>, all_instances, ());
   return all_instances;
 }
 

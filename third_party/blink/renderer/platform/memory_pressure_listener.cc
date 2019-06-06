@@ -14,6 +14,7 @@
 #include "third_party/blink/renderer/platform/fonts/font_global_context.h"
 #include "third_party/blink/renderer/platform/graphics/image_decoding_store.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/trace_event.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/scheduler/public/post_cross_thread_task.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread.h"
 #include "third_party/blink/renderer/platform/wtf/allocator/partitions.h"
@@ -60,7 +61,7 @@ void MemoryPressureListenerRegistry::SetIsLowEndDeviceForTesting(
 
 // static
 MemoryPressureListenerRegistry& MemoryPressureListenerRegistry::Instance() {
-  DEFINE_THREAD_SAFE_STATIC_LOCAL(
+  DEFINE_ISOLATE_BOUND(
       CrossThreadPersistent<MemoryPressureListenerRegistry>, external,
       (MakeGarbageCollected<MemoryPressureListenerRegistry>()));
   return *external.Get();

@@ -9,13 +9,14 @@
 #include "third_party/blink/public/platform/interface_provider.h"
 #include "third_party/blink/public/platform/platform.h"
 #include "third_party/blink/renderer/core/frame/local_frame.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/mojo/mojo_helper.h"
 #include "third_party/blink/renderer/platform/wtf/assertions.h"
 
 namespace blink {
 
 BatteryDispatcher& BatteryDispatcher::Instance() {
-  DEFINE_STATIC_LOCAL(Persistent<BatteryDispatcher>, battery_dispatcher,
+  DEFINE_ISOLATE_BOUND(Persistent<BatteryDispatcher>, battery_dispatcher,
                       (MakeGarbageCollected<BatteryDispatcher>()));
   return *battery_dispatcher;
 }

@@ -16,6 +16,7 @@
 #include "base/trace_event/trace_event.h"
 #include "third_party/blink/public/platform/platform.h"
 #include "third_party/blink/renderer/platform/bindings/parkable_string.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/memory_pressure_listener.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread_scheduler.h"
@@ -137,7 +138,7 @@ ParkableStringManagerDumpProvider::ParkableStringManagerDumpProvider() =
 
 ParkableStringManager& ParkableStringManager::Instance() {
   DCHECK(IsMainThread());
-  DEFINE_STATIC_LOCAL(ParkableStringManager, instance, ());
+  DEFINE_ISOLATE_BOUND(ParkableStringManager, instance, ());
   return instance;
 }
 

@@ -112,6 +112,7 @@
 #include "third_party/blink/renderer/platform/histogram.h"
 #include "third_party/blink/renderer/platform/instrumentation/resource_coordinator/document_resource_coordinator.h"
 #include "third_party/blink/renderer/platform/instrumentation/use_counter.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/json/json_values.h"
 #include "third_party/blink/renderer/platform/loader/fetch/resource_fetcher.h"
 #include "third_party/blink/renderer/platform/loader/fetch/resource_request.h"
@@ -154,7 +155,7 @@ bool ShouldUseClientLoFiForRequest(
 }
 
 WeakPersistent<LocalFrame>& UserActivationNotifierFrame() {
-  DEFINE_STATIC_LOCAL(WeakPersistent<LocalFrame>,
+  DEFINE_ISOLATE_BOUND(WeakPersistent<LocalFrame>,
                       user_activation_notifier_frame, (nullptr));
   return user_activation_notifier_frame;
 }

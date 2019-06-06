@@ -10,6 +10,7 @@
 #include "third_party/blink/renderer/core/html/custom/v0_custom_element_scheduler.h"
 #include "third_party/blink/renderer/platform/bindings/microtask.h"
 #include "third_party/blink/renderer/platform/heap/persistent.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
@@ -20,7 +21,7 @@ V0CustomElementMicrotaskDispatcher::V0CustomElementMicrotaskDispatcher()
 
 V0CustomElementMicrotaskDispatcher&
 V0CustomElementMicrotaskDispatcher::Instance() {
-  DEFINE_STATIC_LOCAL(
+  DEFINE_ISOLATE_BOUND(
       Persistent<V0CustomElementMicrotaskDispatcher>, instance,
       (MakeGarbageCollected<V0CustomElementMicrotaskDispatcher>()));
   return *instance;

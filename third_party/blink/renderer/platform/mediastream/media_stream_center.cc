@@ -39,6 +39,7 @@
 #include "third_party/blink/public/platform/web_media_stream.h"
 #include "third_party/blink/public/platform/web_media_stream_center.h"
 #include "third_party/blink/public/platform/web_media_stream_source.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/mediastream/media_stream_descriptor.h"
 #include "third_party/blink/renderer/platform/mediastream/media_stream_web_audio_source.h"
 #include "third_party/blink/renderer/platform/wtf/assertions.h"
@@ -47,7 +48,7 @@ namespace blink {
 
 MediaStreamCenter& MediaStreamCenter::Instance() {
   DCHECK(IsMainThread());
-  DEFINE_STATIC_LOCAL(MediaStreamCenter, center, ());
+  DEFINE_ISOLATE_BOUND(MediaStreamCenter, center, ());
   return center;
 }
 

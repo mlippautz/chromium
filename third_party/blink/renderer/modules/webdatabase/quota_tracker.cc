@@ -32,6 +32,7 @@
 
 #include "third_party/blink/public/platform/platform.h"
 #include "third_party/blink/public/platform/web_security_origin.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/weborigin/security_origin.h"
 #include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
 #include "third_party/blink/renderer/platform/wtf/threading.h"
@@ -39,7 +40,7 @@
 namespace blink {
 
 QuotaTracker& QuotaTracker::Instance() {
-  DEFINE_THREAD_SAFE_STATIC_LOCAL(QuotaTracker, tracker, ());
+  DEFINE_ISOLATE_BOUND(QuotaTracker, tracker, ());
   return tracker;
 }
 

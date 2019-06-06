@@ -6,13 +6,14 @@
 
 #include "base/trace_event/process_memory_dump.h"
 #include "third_party/blink/renderer/platform/instance_counters.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
 
 namespace blink {
 
 InstanceCountersMemoryDumpProvider*
 InstanceCountersMemoryDumpProvider::Instance() {
-  DEFINE_STATIC_LOCAL(InstanceCountersMemoryDumpProvider, instance, ());
+  DEFINE_ISOLATE_BOUND(InstanceCountersMemoryDumpProvider, instance, ());
   return &instance;
 }
 

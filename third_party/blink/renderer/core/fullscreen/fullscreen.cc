@@ -55,6 +55,7 @@
 #include "third_party/blink/renderer/core/svg/svg_svg_element.h"
 #include "third_party/blink/renderer/platform/bindings/microtask.h"
 #include "third_party/blink/renderer/platform/instrumentation/use_counter.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
@@ -124,7 +125,7 @@ using ElementRequestTypeMap =
     HeapHashMap<WeakMember<Element>, Fullscreen::RequestType>;
 
 ElementRequestTypeMap& FullscreenFlagMap() {
-  DEFINE_STATIC_LOCAL(Persistent<ElementRequestTypeMap>, map,
+  DEFINE_ISOLATE_BOUND(Persistent<ElementRequestTypeMap>, map,
                       (MakeGarbageCollected<ElementRequestTypeMap>()));
   return *map;
 }

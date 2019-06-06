@@ -78,6 +78,7 @@
 #include "third_party/blink/renderer/core/svg/graphics/svg_image_chrome_client.h"
 #include "third_party/blink/renderer/platform/graphics/graphics_layer.h"
 #include "third_party/blink/renderer/platform/graphics/paint/drawing_recorder.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/loader/fetch/resource_fetcher.h"
 #include "third_party/blink/renderer/platform/scheduler/public/frame_scheduler.h"
 #include "third_party/skia/include/core/SkColor.h"
@@ -95,13 +96,13 @@ void ResetPluginCache(bool reload_pages) {
 // Set of all live pages; includes internal Page objects that are
 // not observable from scripts.
 static Page::PageSet& AllPages() {
-  DEFINE_STATIC_LOCAL(Persistent<Page::PageSet>, pages,
+  DEFINE_ISOLATE_BOUND(Persistent<Page::PageSet>, pages,
                       (MakeGarbageCollected<Page::PageSet>()));
   return *pages;
 }
 
 Page::PageSet& Page::OrdinaryPages() {
-  DEFINE_STATIC_LOCAL(Persistent<Page::PageSet>, pages,
+  DEFINE_ISOLATE_BOUND(Persistent<Page::PageSet>, pages,
                       (MakeGarbageCollected<Page::PageSet>()));
   return *pages;
 }

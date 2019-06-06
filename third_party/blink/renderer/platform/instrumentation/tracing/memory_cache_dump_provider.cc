@@ -4,12 +4,14 @@
 
 #include "third_party/blink/renderer/platform/instrumentation/tracing/memory_cache_dump_provider.h"
 
+#include "third_party/blink/renderer/platform/isolate.h"
+
 namespace blink {
 
 void MemoryCacheDumpClient::Trace(blink::Visitor* visitor) {}
 
 MemoryCacheDumpProvider* MemoryCacheDumpProvider::Instance() {
-  DEFINE_STATIC_LOCAL(MemoryCacheDumpProvider, instance, ());
+  DEFINE_ISOLATE_BOUND(MemoryCacheDumpProvider, instance, ());
   return &instance;
 }
 

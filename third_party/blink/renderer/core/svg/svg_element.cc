@@ -60,6 +60,7 @@
 #include "third_party/blink/renderer/core/xml_names.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
 #include "third_party/blink/renderer/platform/instrumentation/use_counter.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/threading.h"
 
 namespace blink {
@@ -653,7 +654,7 @@ void SVGElement::RemoveInstanceMapping(SVGElement* instance) {
 }
 
 static HeapHashSet<WeakMember<SVGElement>>& EmptyInstances() {
-  DEFINE_STATIC_LOCAL(
+  DEFINE_ISOLATE_BOUND(
       Persistent<HeapHashSet<WeakMember<SVGElement>>>, empty_instances,
       (MakeGarbageCollected<HeapHashSet<WeakMember<SVGElement>>>()));
   return *empty_instances;
@@ -1261,7 +1262,7 @@ void SVGElement::AddReferenceTo(SVGElement* target_element) {
 SVGElementSet& SVGElement::GetDependencyTraversalVisitedSet() {
   // This strong reference is safe, as it is guaranteed that this set will be
   // emptied at the end of recursion in NotifyIncomingReferences.
-  DEFINE_STATIC_LOCAL(Persistent<SVGElementSet>, invalidating_dependencies,
+  DEFINE_ISOLATE_BOUND(Persistent<SVGElementSet>, invalidating_dependencies,
                       (MakeGarbageCollected<SVGElementSet>()));
   return *invalidating_dependencies;
 }

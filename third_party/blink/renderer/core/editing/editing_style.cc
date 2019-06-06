@@ -65,6 +65,7 @@
 #include "third_party/blink/renderer/core/style/computed_style.h"
 #include "third_party/blink/renderer/platform/bindings/exception_state.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
 
 namespace blink {
@@ -979,7 +980,7 @@ bool EditingStyle::ConflictsWithInlineStyleOfElement(
 
 static const HeapVector<Member<HTMLElementEquivalent>>&
 HtmlElementEquivalents() {
-  DEFINE_STATIC_LOCAL(
+  DEFINE_ISOLATE_BOUND(
       Persistent<HeapVector<Member<HTMLElementEquivalent>>>,
       html_element_equivalents,
       (MakeGarbageCollected<HeapVector<Member<HTMLElementEquivalent>>>()));
@@ -1043,7 +1044,7 @@ bool EditingStyle::ConflictsWithImplicitStyleOfElement(
 
 static const HeapVector<Member<HTMLAttributeEquivalent>>&
 HtmlAttributeEquivalents() {
-  DEFINE_STATIC_LOCAL(
+  DEFINE_ISOLATE_BOUND(
       Persistent<HeapVector<Member<HTMLAttributeEquivalent>>>,
       html_attribute_equivalents,
       (MakeGarbageCollected<HeapVector<Member<HTMLAttributeEquivalent>>>()));
@@ -1347,9 +1348,9 @@ void EditingStyle::MergeInlineAndImplicitStyleOfElement(
 static const CSSValueList& MergeTextDecorationValues(
     const CSSValueList& merged_value,
     const CSSValueList& value_to_merge) {
-  DEFINE_STATIC_LOCAL(Persistent<CSSIdentifierValue>, underline,
+  DEFINE_ISOLATE_BOUND(Persistent<CSSIdentifierValue>, underline,
                       (CSSIdentifierValue::Create(CSSValueID::kUnderline)));
-  DEFINE_STATIC_LOCAL(Persistent<CSSIdentifierValue>, line_through,
+  DEFINE_ISOLATE_BOUND(Persistent<CSSIdentifierValue>, line_through,
                       (CSSIdentifierValue::Create(CSSValueID::kLineThrough)));
   CSSValueList& result = *merged_value.Copy();
   if (value_to_merge.HasValue(*underline) && !merged_value.HasValue(*underline))
@@ -1694,9 +1695,9 @@ void StyleChange::ExtractTextStyles(Document* document,
       style->GetPropertyCSSValue(CSSPropertyID::kTextDecorationLine);
   if (const auto* text_decoration_value_list =
           DynamicTo<CSSValueList>(text_decoration)) {
-    DEFINE_STATIC_LOCAL(Persistent<CSSIdentifierValue>, underline,
+    DEFINE_ISOLATE_BOUND(Persistent<CSSIdentifierValue>, underline,
                         (CSSIdentifierValue::Create(CSSValueID::kUnderline)));
-    DEFINE_STATIC_LOCAL(Persistent<CSSIdentifierValue>, line_through,
+    DEFINE_ISOLATE_BOUND(Persistent<CSSIdentifierValue>, line_through,
                         (CSSIdentifierValue::Create(CSSValueID::kLineThrough)));
     CSSValueList* new_text_decoration = text_decoration_value_list->Copy();
     if (new_text_decoration->RemoveAll(*underline))

@@ -6,6 +6,7 @@
 
 #include "base/bits.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
 
 namespace blink {
@@ -45,7 +46,7 @@ GCInfoTable* GCInfoTable::global_table_ = nullptr;
 constexpr uint32_t GCInfoTable::kMaxIndex;
 
 void GCInfoTable::CreateGlobalTable() {
-  DEFINE_STATIC_LOCAL(GCInfoTable, table, ());
+  DEFINE_ISOLATE_BOUND(GCInfoTable, table, ());
   global_table_ = &table;
 }
 

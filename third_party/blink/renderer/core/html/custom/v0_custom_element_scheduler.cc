@@ -44,6 +44,7 @@
 #include "third_party/blink/renderer/core/html/imports/html_import_child.h"
 #include "third_party/blink/renderer/core/html/imports/html_imports_controller.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
@@ -52,7 +53,7 @@ typedef HeapHashMap<Member<Element>, Member<V0CustomElementCallbackQueue>>
     ElementCallbackQueueMap;
 
 static ElementCallbackQueueMap& CallbackQueues() {
-  DEFINE_STATIC_LOCAL(Persistent<ElementCallbackQueueMap>, map,
+  DEFINE_ISOLATE_BOUND(Persistent<ElementCallbackQueueMap>, map,
                       (MakeGarbageCollected<ElementCallbackQueueMap>()));
   return *map;
 }

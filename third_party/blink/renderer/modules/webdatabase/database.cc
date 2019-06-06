@@ -52,6 +52,7 @@
 #include "third_party/blink/renderer/modules/webdatabase/sqlite/sqlite_transaction.h"
 #include "third_party/blink/renderer/modules/webdatabase/storage_log.h"
 #include "third_party/blink/renderer/platform/cross_thread_functional.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/scheduler/public/post_cross_thread_task.h"
 #include "third_party/blink/renderer/platform/wtf/allocator.h"
 
@@ -148,7 +149,7 @@ class DatabaseVersionCache {
 };
 
 DatabaseVersionCache& GetDatabaseVersionCache() {
-  DEFINE_THREAD_SAFE_STATIC_LOCAL(DatabaseVersionCache, cache, ());
+  DEFINE_ISOLATE_BOUND(DatabaseVersionCache, cache, ());
   return cache;
 }
 

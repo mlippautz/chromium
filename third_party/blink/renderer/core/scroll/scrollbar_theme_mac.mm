@@ -39,6 +39,7 @@
 #include "third_party/blink/renderer/platform/graphics/graphics_context.h"
 #include "third_party/blink/renderer/platform/graphics/graphics_context_state_saver.h"
 #include "third_party/blink/renderer/platform/graphics/paint/drawing_recorder.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/mac/color_mac.h"
 #include "third_party/blink/renderer/platform/mac/local_current_graphics_context.h"
 #include "third_party/blink/renderer/platform/runtime_enabled_features.h"
@@ -117,7 +118,7 @@ static bool s_jump_on_track_click = false;
 typedef HeapHashSet<WeakMember<Scrollbar>> ScrollbarSet;
 
 static ScrollbarSet& GetScrollbarSet() {
-  DEFINE_STATIC_LOCAL(Persistent<ScrollbarSet>, set,
+  DEFINE_ISOLATE_BOUND(Persistent<ScrollbarSet>, set,
                       (MakeGarbageCollected<ScrollbarSet>()));
   return *set;
 }
@@ -127,7 +128,7 @@ typedef HeapHashMap<WeakMember<Scrollbar>,
     ScrollbarPainterMap;
 
 static ScrollbarPainterMap& GetScrollbarPainterMap() {
-  DEFINE_STATIC_LOCAL(Persistent<ScrollbarPainterMap>, map,
+  DEFINE_ISOLATE_BOUND(Persistent<ScrollbarPainterMap>, map,
                       (MakeGarbageCollected<ScrollbarPainterMap>()));
   return *map;
 }

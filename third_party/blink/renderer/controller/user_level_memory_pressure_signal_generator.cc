@@ -12,6 +12,7 @@
 #include "base/time/default_tick_clock.h"
 #include "third_party/blink/public/common/features.h"
 #include "third_party/blink/renderer/platform/bindings/v8_per_isolate_data.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread_scheduler.h"
 #include "third_party/blink/renderer/platform/wtf/allocator/partitions.h"
@@ -55,7 +56,7 @@ constexpr base::FeatureParam<double> kMinimumIntervalSeconds{
 // static
 UserLevelMemoryPressureSignalGenerator&
 UserLevelMemoryPressureSignalGenerator::Instance() {
-  DEFINE_STATIC_LOCAL(UserLevelMemoryPressureSignalGenerator, generator, ());
+  DEFINE_ISOLATE_BOUND(UserLevelMemoryPressureSignalGenerator, generator, ());
   return generator;
 }
 

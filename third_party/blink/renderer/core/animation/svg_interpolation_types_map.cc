@@ -21,6 +21,7 @@
 #include "third_party/blink/renderer/core/animation/svg_transform_list_interpolation_type.h"
 #include "third_party/blink/renderer/core/animation/svg_value_interpolation_type.h"
 #include "third_party/blink/renderer/core/html_names.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
@@ -28,7 +29,7 @@ const InterpolationTypes& SVGInterpolationTypesMap::Get(
     const PropertyHandle& property) const {
   using ApplicableTypesMap =
       HashMap<PropertyHandle, std::unique_ptr<const InterpolationTypes>>;
-  DEFINE_STATIC_LOCAL(ApplicableTypesMap, applicable_types_map, ());
+  DEFINE_ISOLATE_BOUND(ApplicableTypesMap, applicable_types_map, ());
   auto entry = applicable_types_map.find(property);
   if (entry != applicable_types_map.end())
     return *entry->value.get();

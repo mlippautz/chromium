@@ -32,6 +32,7 @@
 #include "third_party/blink/renderer/core/html/html_content_element.h"
 #include "third_party/blink/renderer/core/html/html_shadow_element.h"
 #include "third_party/blink/renderer/core/probe/core_probes.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
@@ -123,7 +124,7 @@ inline void DistributionPool::DetachNonDistributedNodes() {
 
 const HeapVector<Member<V0InsertionPoint>>&
 ShadowRootV0::DescendantInsertionPoints() {
-  DEFINE_STATIC_LOCAL(
+  DEFINE_ISOLATE_BOUND(
       Persistent<HeapVector<Member<V0InsertionPoint>>>, empty_list,
       (MakeGarbageCollected<HeapVector<Member<V0InsertionPoint>>>()));
   if (descendant_insertion_points_is_valid_)

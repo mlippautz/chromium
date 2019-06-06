@@ -39,6 +39,7 @@
 #include "third_party/blink/renderer/core/dom/element.h"
 #include "third_party/blink/renderer/core/html/forms/html_input_element.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread_scheduler.h"
 #include "third_party/blink/renderer/platform/wtf/hash_functions.h"
@@ -76,7 +77,7 @@ using PresentationAttributeCache =
                 Member<PresentationAttributeCacheEntry>,
                 AlreadyHashed>;
 static PresentationAttributeCache& GetPresentationAttributeCache() {
-  DEFINE_STATIC_LOCAL(Persistent<PresentationAttributeCache>, cache,
+  DEFINE_ISOLATE_BOUND(Persistent<PresentationAttributeCache>, cache,
                       (MakeGarbageCollected<PresentationAttributeCache>()));
   return *cache;
 }

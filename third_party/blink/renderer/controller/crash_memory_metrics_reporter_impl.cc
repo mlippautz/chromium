@@ -12,6 +12,7 @@
 #include "third_party/blink/renderer/controller/memory_usage_monitor_android.h"
 #include "third_party/blink/renderer/platform/bindings/v8_per_isolate_data.h"
 #include "third_party/blink/renderer/platform/heap/handle.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/allocator/partitions.h"
 
 namespace blink {
@@ -25,7 +26,7 @@ void CrashMemoryMetricsReporterImpl::Bind(
 }
 
 CrashMemoryMetricsReporterImpl& CrashMemoryMetricsReporterImpl::Instance() {
-  DEFINE_STATIC_LOCAL(CrashMemoryMetricsReporterImpl,
+  DEFINE_ISOLATE_BOUND(CrashMemoryMetricsReporterImpl,
                       crash_memory_metrics_reporter_impl, ());
   return crash_memory_metrics_reporter_impl;
 }
