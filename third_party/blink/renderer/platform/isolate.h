@@ -68,7 +68,7 @@ class PLATFORM_EXPORT Isolate {
   };                                                         \
   static size_t Name##_offset =                              \
       blink::Isolate::RegisterGlobal(&Name##Helper::Create); \
-  Type* name = static_cast<Type*>(                           \
+  Type* Name = static_cast<Type*>(                           \
       blink::Isolate::Current()->GetOrCreateGlobal(Name##_offset));
 
 }  // namespace blink
