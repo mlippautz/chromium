@@ -27,6 +27,8 @@ constexpr size_t Isolate::kMaxGlobals;
 // static
 Isolate* Isolate::Current() {
   if (WTF::IsMainThread()) {
+    // TODO(gab): Enable this.
+    // DCHECK(g_current_main_thread_isolate);
     return g_current_main_thread_isolate;
   }
   DCHECK(*GetIsolateCache());
