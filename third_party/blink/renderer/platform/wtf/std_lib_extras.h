@@ -40,14 +40,18 @@
 #include "third_party/blink/renderer/platform/wtf/threading.h"
 #endif
 
-// TODO(gab): DCHECK that MakeGarbageCollected isn't called from this macro.
-// Places where the DCHECK fails need to use DEFINE_ISOLATE_BOUND.
-#define DEFINE_STATIC_LOCAL_IMPL(Type, Name, Arguments, allow_cross_thread)    \
-  static WTF::StaticSingleton<Type> s_##Name(                                  \
-      [&]() { return new WTF::StaticSingleton<Type>::WrapperType Arguments; }, \
-      [&](void* leaked_ptr) {                                                  \
-        new (leaked_ptr) WTF::StaticSingleton<Type>::WrapperType Arguments;    \
-      });                                                                      \
+#define DEFINE_STATIC_LOCAL_IMPL(Type, Name, Arguments, allow_cross_thread) \
+  static WTF::StaticSingleton<Type> s_##Name(                               \
+      [&]() {                                                               \
+        /* GC allocs for globals must be done inside DEFINE_ISOLATE_BOUND   \
+           rather than DEFINE_STATIC_LOCAL */                               \
+        WTF::internal::ScopedBanGarbageCollectedAlloc ban_gc_alloc;         \
+        return new WTF::StaticSingleton<Type>::WrapperType Arguments;       \
+      },                                                                    \
+      [&](void* leaked_ptr) {                                               \
+        WTF::internal::ScopedBanGarbageCollectedAlloc ban_gc_alloc;         \
+        new (leaked_ptr) WTF::StaticSingleton<Type>::WrapperType Arguments; \
+      });                                                                   \
   Type& Name = s_##Name.Get(allow_cross_thread)
 
 // Use |DEFINE_STATIC_LOCAL()| to declare and define a static local variable

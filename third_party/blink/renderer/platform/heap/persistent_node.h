@@ -18,6 +18,7 @@
 namespace blink {
 
 class CrossThreadPersistentRegion;
+class Isolate;
 class PersistentRegion;
 
 enum WeaknessPersistentConfiguration {
@@ -122,7 +123,7 @@ class PersistentNodePtr {
   PersistentNode* Get() const { return ptr_; }
   bool IsInitialized() const { return ptr_; }
 
-  void Initialize(void* owner, TraceCallback);
+  void Initialize(void* owner, TraceCallback, void*);
   void Uninitialize();
 
  private:
@@ -148,7 +149,7 @@ class CrossThreadPersistentNodePtr {
   }
   bool IsInitialized() const { return ptr_.load(std::memory_order_acquire); }
 
-  void Initialize(void* owner, TraceCallback);
+  void Initialize(void* owner, TraceCallback, void*);
   void Uninitialize();
 
   void ClearWithLockHeld();
@@ -291,7 +292,8 @@ template <ThreadAffinity affinity,
           WeaknessPersistentConfiguration weakness_configuration>
 void PersistentNodePtr<affinity, weakness_configuration>::Initialize(
     void* owner,
-    TraceCallback trace_callback) {
+    TraceCallback trace_callback,
+    void* on_heap_object) {
   ThreadState* state = ThreadStateFor<affinity>::GetState();
   DCHECK(state->CheckThread());
   PersistentRegion* region =
@@ -327,13 +329,13 @@ void PersistentNodePtr<affinity, weakness_configuration>::Uninitialize() {
 template <WeaknessPersistentConfiguration weakness_configuration>
 void CrossThreadPersistentNodePtr<weakness_configuration>::Initialize(
     void* owner,
-    TraceCallback trace_callback) {
+    TraceCallback trace_callback,
+    void* on_heap_object) {
+  Isolate* isolate = ThreadState::FromObject(on_heap_object)->BlinkIsolate();
   CrossThreadPersistentRegion& region =
       weakness_configuration == kWeakPersistentConfiguration
-          ? ProcessHeap::GetCrossThreadWeakPersistentRegion(
-                Isolate::Current()->ParentIsolate())
-          : ProcessHeap::GetCrossThreadPersistentRegion(
-                Isolate::Current()->ParentIsolate());
+          ? ProcessHeap::GetCrossThreadWeakPersistentRegion(isolate)
+          : ProcessHeap::GetCrossThreadPersistentRegion(isolate);
   MutexLocker lock(ProcessHeap::CrossThreadPersistentMutex());
   PersistentNode* node = region.AllocatePersistentNode(owner, trace_callback);
   ptr_.store(node, std::memory_order_release);

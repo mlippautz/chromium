@@ -219,7 +219,9 @@ class PersistentBase {
     TraceCallback trace_callback =
         TraceMethodDelegate<PersistentBase,
                             &PersistentBase::TracePersistent>::Trampoline;
-    persistent_node_.Initialize(this, trace_callback);
+    persistent_node_.Initialize(
+        this, trace_callback,
+        const_cast<void*>(reinterpret_cast<const void*>(raw_)));
   }
 
   void Uninitialize() { persistent_node_.Uninitialize(); }
