@@ -73,8 +73,7 @@ class HeapSizeCache {
   }
 
   static HeapSizeCache& ForCurrentThread() {
-    DEFINE_ISOLATE_BOUND(ThreadSpecific<HeapSizeCache>,
-                                    heap_size_cache, ());
+    DEFINE_ISOLATE_BOUND(ThreadSpecific<HeapSizeCache>, heap_size_cache, ());
     return *heap_size_cache;
   }
 

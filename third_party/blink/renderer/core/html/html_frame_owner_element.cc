@@ -60,7 +60,7 @@ namespace {
 using PluginSet = HeapHashSet<Member<WebPluginContainerImpl>>;
 PluginSet& PluginsPendingDispose() {
   DEFINE_ISOLATE_BOUND(Persistent<PluginSet>, set,
-                      (MakeGarbageCollected<PluginSet>()));
+                       (MakeGarbageCollected<PluginSet>()));
   return *set;
 }
 

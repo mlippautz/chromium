@@ -152,7 +152,7 @@ const HeapVector<Member<Element>>& TreeOrderedMap::GetAllElementsById(
     const TreeScope& scope) const {
   DCHECK(key);
   DEFINE_ISOLATE_BOUND(Persistent<HeapVector<Member<Element>>>, empty_vector,
-                      (MakeGarbageCollected<HeapVector<Member<Element>>>()));
+                       (MakeGarbageCollected<HeapVector<Member<Element>>>()));
 
   Map::iterator it = map_.find(key);
   if (it == map_.end())

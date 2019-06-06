@@ -23,7 +23,7 @@ namespace {
 using ActiveScrollTimelineSet = HeapHashCountedSet<WeakMember<Node>>;
 ActiveScrollTimelineSet& GetActiveScrollTimelineSet() {
   DEFINE_ISOLATE_BOUND(Persistent<ActiveScrollTimelineSet>, set,
-                      (new ActiveScrollTimelineSet));
+                       (new ActiveScrollTimelineSet));
   return *set;
 }
 

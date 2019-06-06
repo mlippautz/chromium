@@ -78,7 +78,7 @@ using PresentationAttributeCache =
                 AlreadyHashed>;
 static PresentationAttributeCache& GetPresentationAttributeCache() {
   DEFINE_ISOLATE_BOUND(Persistent<PresentationAttributeCache>, cache,
-                      (MakeGarbageCollected<PresentationAttributeCache>()));
+                       (MakeGarbageCollected<PresentationAttributeCache>()));
   return *cache;
 }
 

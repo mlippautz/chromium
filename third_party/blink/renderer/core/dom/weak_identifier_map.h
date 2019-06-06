@@ -108,7 +108,7 @@ class WeakIdentifierMap final
   WeakIdentifierMap<T, ##__VA_ARGS__>&                                  \
   WeakIdentifierMap<T, ##__VA_ARGS__>::Instance() {                     \
     using RefType = WeakIdentifierMap<T, ##__VA_ARGS__>;                \
-    DEFINE_ISOLATE_BOUND(                                                \
+    DEFINE_ISOLATE_BOUND(                                               \
         Persistent<RefType>, map_instance,                              \
         (MakeGarbageCollected<WeakIdentifierMap<T, ##__VA_ARGS__>>())); \
     return *map_instance;                                               \

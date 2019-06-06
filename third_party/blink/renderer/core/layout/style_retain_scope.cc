@@ -13,8 +13,7 @@ namespace blink {
 namespace {
 
 StyleRetainScope** CurrentPtr() {
-  DEFINE_ISOLATE_BOUND(ThreadSpecific<StyleRetainScope*>, current,
-                                  ());
+  DEFINE_ISOLATE_BOUND(ThreadSpecific<StyleRetainScope*>, current, ());
   return &*current;
 }
 

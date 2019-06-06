@@ -298,7 +298,7 @@ void WebPagePopupImpl::Initialize(WebViewImpl* web_view,
 
   ProvideContextFeaturesTo(*page_, std::make_unique<PagePopupFeaturesClient>());
   DEFINE_ISOLATE_BOUND(Persistent<LocalFrameClient>, empty_local_frame_client,
-                      (MakeGarbageCollected<EmptyLocalFrameClient>()));
+                       (MakeGarbageCollected<EmptyLocalFrameClient>()));
   auto* frame = MakeGarbageCollected<LocalFrame>(empty_local_frame_client,
                                                  *page_, nullptr);
   frame->SetPagePopupOwner(popup_client_->OwnerElement());

@@ -17,8 +17,8 @@ namespace {
 
 Persistent<CustomElementReactionStack>& GetCustomElementReactionStack() {
   DEFINE_ISOLATE_BOUND(Persistent<CustomElementReactionStack>,
-                      custom_element_reaction_stack,
-                      (MakeGarbageCollected<CustomElementReactionStack>()));
+                       custom_element_reaction_stack,
+                       (MakeGarbageCollected<CustomElementReactionStack>()));
   return custom_element_reaction_stack;
 }
 

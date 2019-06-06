@@ -126,7 +126,7 @@ using ElementRequestTypeMap =
 
 ElementRequestTypeMap& FullscreenFlagMap() {
   DEFINE_ISOLATE_BOUND(Persistent<ElementRequestTypeMap>, map,
-                      (MakeGarbageCollected<ElementRequestTypeMap>()));
+                       (MakeGarbageCollected<ElementRequestTypeMap>()));
   return *map;
 }
 

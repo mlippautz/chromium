@@ -35,7 +35,7 @@ using namespace cssvalue;
 
 CSSValuePool& CssValuePool() {
   DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<CSSValuePool>>,
-                                  thread_specific_pool, ());
+                       thread_specific_pool, ());
   Persistent<CSSValuePool>& pool_handle = *thread_specific_pool;
   if (!pool_handle) {
     pool_handle = MakeGarbageCollected<CSSValuePool>();

@@ -472,7 +472,7 @@ HTMLTableElement::AdditionalPresentationAttributeStyle() {
     // set on the table's cells during border-conflict resolution.
     if (rules_attr_ != kUnsetRules) {
       DEFINE_ISOLATE_BOUND(Persistent<CSSPropertyValueSet>, solid_border_style,
-                          (CreateBorderStyle(CSSValueID::kHidden)));
+                           (CreateBorderStyle(CSSValueID::kHidden)));
       return solid_border_style;
     }
     return nullptr;
@@ -480,11 +480,11 @@ HTMLTableElement::AdditionalPresentationAttributeStyle() {
 
   if (border_color_attr_) {
     DEFINE_ISOLATE_BOUND(Persistent<CSSPropertyValueSet>, solid_border_style,
-                        (CreateBorderStyle(CSSValueID::kSolid)));
+                         (CreateBorderStyle(CSSValueID::kSolid)));
     return solid_border_style;
   }
   DEFINE_ISOLATE_BOUND(Persistent<CSSPropertyValueSet>, outset_border_style,
-                      (CreateBorderStyle(CSSValueID::kOutset)));
+                       (CreateBorderStyle(CSSValueID::kOutset)));
   return outset_border_style;
 }
 
@@ -592,11 +592,11 @@ const CSSPropertyValueSet* HTMLTableElement::AdditionalGroupStyle(bool rows) {
 
   if (rows) {
     DEFINE_ISOLATE_BOUND(Persistent<CSSPropertyValueSet>, row_border_style,
-                        (CreateGroupBorderStyle(true)));
+                         (CreateGroupBorderStyle(true)));
     return row_border_style;
   }
   DEFINE_ISOLATE_BOUND(Persistent<CSSPropertyValueSet>, column_border_style,
-                      (CreateGroupBorderStyle(false)));
+                       (CreateGroupBorderStyle(false)));
   return column_border_style;
 }
 

@@ -1263,7 +1263,7 @@ SVGElementSet& SVGElement::GetDependencyTraversalVisitedSet() {
   // This strong reference is safe, as it is guaranteed that this set will be
   // emptied at the end of recursion in NotifyIncomingReferences.
   DEFINE_ISOLATE_BOUND(Persistent<SVGElementSet>, invalidating_dependencies,
-                      (MakeGarbageCollected<SVGElementSet>()));
+                       (MakeGarbageCollected<SVGElementSet>()));
   return *invalidating_dependencies;
 }
 

@@ -43,7 +43,7 @@ typedef HeapHashMap<WeakMember<Element>, Member<V0CustomElementObserver>>
 
 static ElementObserverMap& ElementObservers() {
   DEFINE_ISOLATE_BOUND(Persistent<ElementObserverMap>, map,
-                      (MakeGarbageCollected<ElementObserverMap>()));
+                       (MakeGarbageCollected<ElementObserverMap>()));
   return *map;
 }
 

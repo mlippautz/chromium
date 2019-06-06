@@ -44,7 +44,7 @@ class TextAutosizerTest : public RenderingTest {
   }
   TextAutosizerClient& GetTextAutosizerClient() const {
     DEFINE_ISOLATE_BOUND(Persistent<TextAutosizerClient>, client,
-                        (MakeGarbageCollected<TextAutosizerClient>()));
+                         (MakeGarbageCollected<TextAutosizerClient>()));
     return *client;
   }
   void set_device_scale_factor(float device_scale_factor) {

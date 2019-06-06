@@ -143,7 +143,7 @@ String RuntimeCallStats::ToString() const {
 // static
 void RuntimeCallStats::SetRuntimeCallStatsForTesting() {
   DEFINE_ISOLATE_BOUND(RuntimeCallStats, s_rcs_for_testing,
-                      (base::DefaultTickClock::GetInstance()));
+                       (base::DefaultTickClock::GetInstance()));
   g_runtime_call_stats_for_testing =
       static_cast<RuntimeCallStats*>(&s_rcs_for_testing);
 }

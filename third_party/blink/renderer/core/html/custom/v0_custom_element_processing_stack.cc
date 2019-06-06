@@ -43,8 +43,9 @@ wtf_size_t V0CustomElementProcessingStack::element_queue_start_ = 0;
 wtf_size_t V0CustomElementProcessingStack::element_queue_end_ = kNumSentinels;
 
 V0CustomElementProcessingStack& V0CustomElementProcessingStack::Instance() {
-  DEFINE_ISOLATE_BOUND(Persistent<V0CustomElementProcessingStack>, instance,
-                      (MakeGarbageCollected<V0CustomElementProcessingStack>()));
+  DEFINE_ISOLATE_BOUND(
+      Persistent<V0CustomElementProcessingStack>, instance,
+      (MakeGarbageCollected<V0CustomElementProcessingStack>()));
   return *instance;
 }
 

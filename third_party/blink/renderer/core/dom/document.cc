@@ -8154,7 +8154,7 @@ template class CORE_TEMPLATE_EXPORT Supplement<Document>;
 #ifndef NDEBUG
 static WeakDocumentSet& liveDocumentSet() {
   DEFINE_ISOLATE_BOUND(blink::Persistent<WeakDocumentSet>, set,
-                      (blink::MakeGarbageCollected<WeakDocumentSet>()));
+                       (blink::MakeGarbageCollected<WeakDocumentSet>()));
   return *set;
 }
 

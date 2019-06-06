@@ -230,7 +230,7 @@ namespace {
 static RejectedPromises& RejectedPromisesOnMainThread() {
   DCHECK(IsMainThread());
   DEFINE_ISOLATE_BOUND(scoped_refptr<RejectedPromises>, rejected_promises,
-                      (RejectedPromises::Create()));
+                       (RejectedPromises::Create()));
   return *rejected_promises;
 }
 

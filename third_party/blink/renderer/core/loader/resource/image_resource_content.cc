@@ -107,7 +107,7 @@ ImageResourceContent::ImageResourceContent(scoped_refptr<blink::Image> image)
       has_device_pixel_ratio_header_value_(false),
       image_(std::move(image)) {
   DEFINE_ISOLATE_BOUND(Persistent<NullImageResourceInfo>, null_info,
-                      (MakeGarbageCollected<NullImageResourceInfo>()));
+                       (MakeGarbageCollected<NullImageResourceInfo>()));
   info_ = null_info;
 }
 

@@ -36,11 +36,11 @@ mojom::blink::StoragePartitionServicePtr GetAndCreateStorageInterface() {
 // static
 StorageController* StorageController::GetInstance() {
   DEFINE_ISOLATE_BOUND(StorageController, gCachedStorageAreaController,
-                      (Thread::MainThread()->Scheduler()->IPCTaskRunner(),
-                       GetAndCreateStorageInterface(),
-                       base::SysInfo::IsLowEndDevice()
-                           ? kStorageControllerTotalCacheLimitInBytesLowEnd
-                           : kStorageControllerTotalCacheLimitInBytes));
+                       (Thread::MainThread()->Scheduler()->IPCTaskRunner(),
+                        GetAndCreateStorageInterface(),
+                        base::SysInfo::IsLowEndDevice()
+                            ? kStorageControllerTotalCacheLimitInBytesLowEnd
+                            : kStorageControllerTotalCacheLimitInBytes));
   return &gCachedStorageAreaController;
 }
 

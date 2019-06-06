@@ -142,7 +142,7 @@ HTMLFrameOwnerElement* Frame::DeprecatedLocalOwner() const {
 
 static ChromeClient& GetEmptyChromeClient() {
   DEFINE_ISOLATE_BOUND(Persistent<EmptyChromeClient>, client,
-                      (MakeGarbageCollected<EmptyChromeClient>()));
+                       (MakeGarbageCollected<EmptyChromeClient>()));
   return *client;
 }
 

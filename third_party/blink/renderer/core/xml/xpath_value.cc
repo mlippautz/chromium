@@ -53,7 +53,7 @@ const NodeSet& Value::ToNodeSet(EvaluationContext* context) const {
 
   if (!data_) {
     DEFINE_ISOLATE_BOUND(Persistent<NodeSet>, empty_node_set,
-                        (NodeSet::Create()));
+                         (NodeSet::Create()));
     return *empty_node_set;
   }
 

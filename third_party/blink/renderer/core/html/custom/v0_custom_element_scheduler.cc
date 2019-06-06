@@ -54,7 +54,7 @@ typedef HeapHashMap<Member<Element>, Member<V0CustomElementCallbackQueue>>
 
 static ElementCallbackQueueMap& CallbackQueues() {
   DEFINE_ISOLATE_BOUND(Persistent<ElementCallbackQueueMap>, map,
-                      (MakeGarbageCollected<ElementCallbackQueueMap>()));
+                       (MakeGarbageCollected<ElementCallbackQueueMap>()));
   return *map;
 }
 

@@ -27,7 +27,7 @@ void CrashMemoryMetricsReporterImpl::Bind(
 
 CrashMemoryMetricsReporterImpl& CrashMemoryMetricsReporterImpl::Instance() {
   DEFINE_ISOLATE_BOUND(CrashMemoryMetricsReporterImpl,
-                      crash_memory_metrics_reporter_impl, ());
+                       crash_memory_metrics_reporter_impl, ());
   return crash_memory_metrics_reporter_impl;
 }
 

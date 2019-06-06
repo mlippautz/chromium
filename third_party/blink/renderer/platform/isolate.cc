@@ -69,4 +69,3 @@ Isolate* Isolate::ParentIsolate() const {
 }
 
 }  // namespace blink
-

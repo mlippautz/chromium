@@ -240,7 +240,7 @@ HTMLCanvasElement::ContextFactoryVector&
 HTMLCanvasElement::RenderingContextFactories() {
   DCHECK(IsMainThread());
   DEFINE_ISOLATE_BOUND(ContextFactoryVector, context_factories,
-                      (CanvasRenderingContext::kMaxValue));
+                       (CanvasRenderingContext::kMaxValue));
   return context_factories;
 }
 

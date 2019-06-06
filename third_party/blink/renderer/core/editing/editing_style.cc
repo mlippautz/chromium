@@ -1349,9 +1349,9 @@ static const CSSValueList& MergeTextDecorationValues(
     const CSSValueList& merged_value,
     const CSSValueList& value_to_merge) {
   DEFINE_ISOLATE_BOUND(Persistent<CSSIdentifierValue>, underline,
-                      (CSSIdentifierValue::Create(CSSValueID::kUnderline)));
+                       (CSSIdentifierValue::Create(CSSValueID::kUnderline)));
   DEFINE_ISOLATE_BOUND(Persistent<CSSIdentifierValue>, line_through,
-                      (CSSIdentifierValue::Create(CSSValueID::kLineThrough)));
+                       (CSSIdentifierValue::Create(CSSValueID::kLineThrough)));
   CSSValueList& result = *merged_value.Copy();
   if (value_to_merge.HasValue(*underline) && !merged_value.HasValue(*underline))
     result.Append(*underline);
@@ -1696,9 +1696,10 @@ void StyleChange::ExtractTextStyles(Document* document,
   if (const auto* text_decoration_value_list =
           DynamicTo<CSSValueList>(text_decoration)) {
     DEFINE_ISOLATE_BOUND(Persistent<CSSIdentifierValue>, underline,
-                        (CSSIdentifierValue::Create(CSSValueID::kUnderline)));
-    DEFINE_ISOLATE_BOUND(Persistent<CSSIdentifierValue>, line_through,
-                        (CSSIdentifierValue::Create(CSSValueID::kLineThrough)));
+                         (CSSIdentifierValue::Create(CSSValueID::kUnderline)));
+    DEFINE_ISOLATE_BOUND(
+        Persistent<CSSIdentifierValue>, line_through,
+        (CSSIdentifierValue::Create(CSSValueID::kLineThrough)));
     CSSValueList* new_text_decoration = text_decoration_value_list->Copy();
     if (new_text_decoration->RemoveAll(*underline))
       apply_underline_ = true;

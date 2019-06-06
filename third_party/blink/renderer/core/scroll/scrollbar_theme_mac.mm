@@ -119,7 +119,7 @@ typedef HeapHashSet<WeakMember<Scrollbar>> ScrollbarSet;
 
 static ScrollbarSet& GetScrollbarSet() {
   DEFINE_ISOLATE_BOUND(Persistent<ScrollbarSet>, set,
-                      (MakeGarbageCollected<ScrollbarSet>()));
+                       (MakeGarbageCollected<ScrollbarSet>()));
   return *set;
 }
 
@@ -129,7 +129,7 @@ typedef HeapHashMap<WeakMember<Scrollbar>,
 
 static ScrollbarPainterMap& GetScrollbarPainterMap() {
   DEFINE_ISOLATE_BOUND(Persistent<ScrollbarPainterMap>, map,
-                      (MakeGarbageCollected<ScrollbarPainterMap>()));
+                       (MakeGarbageCollected<ScrollbarPainterMap>()));
   return *map;
 }
 

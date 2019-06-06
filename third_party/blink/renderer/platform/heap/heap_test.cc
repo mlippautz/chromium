@@ -5810,8 +5810,8 @@ class ThreadedClearOnShutdownTester : public ThreadedTesterBase {
   static HeapObjectSet& GetHeapObjectSet();
 
   static IntWrapper& ThreadSpecificIntWrapper() {
-    DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<IntWrapper>>,
-                                    int_wrapper, ());
+    DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<IntWrapper>>, int_wrapper,
+                         ());
     Persistent<IntWrapper>& handle = *int_wrapper;
     if (!handle) {
       handle = MakeGarbageCollected<IntWrapper>(42);
@@ -5850,8 +5850,8 @@ class ThreadedClearOnShutdownTester::HeapObject final
 
 ThreadedClearOnShutdownTester::WeakHeapObjectSet&
 ThreadedClearOnShutdownTester::GetWeakHeapObjectSet() {
-  DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<WeakHeapObjectSet>>,
-                                  singleton, ());
+  DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<WeakHeapObjectSet>>, singleton,
+                       ());
   Persistent<WeakHeapObjectSet>& singleton_persistent = *singleton;
   if (!singleton_persistent) {
     singleton_persistent = MakeGarbageCollected<WeakHeapObjectSet>();
@@ -5862,8 +5862,8 @@ ThreadedClearOnShutdownTester::GetWeakHeapObjectSet() {
 
 ThreadedClearOnShutdownTester::HeapObjectSet&
 ThreadedClearOnShutdownTester::GetHeapObjectSet() {
-  DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<HeapObjectSet>>,
-                                  singleton, ());
+  DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<HeapObjectSet>>, singleton,
+                       ());
   Persistent<HeapObjectSet>& singleton_persistent = *singleton;
   if (!singleton_persistent) {
     singleton_persistent = MakeGarbageCollected<HeapObjectSet>();

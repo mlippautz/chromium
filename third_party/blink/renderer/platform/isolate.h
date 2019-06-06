@@ -74,4 +74,3 @@ class PLATFORM_EXPORT Isolate {
 }  // namespace blink
 
 #endif  // THIRD_PARTY_BLINK_RENDERER_PLATFORM_ISOLATE_H_
-

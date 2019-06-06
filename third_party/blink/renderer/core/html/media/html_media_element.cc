@@ -206,7 +206,7 @@ const char* BoolString(bool val) {
 
 DocumentElementSetMap& DocumentToElementSetMap() {
   DEFINE_ISOLATE_BOUND(Persistent<DocumentElementSetMap>, map,
-                      (MakeGarbageCollected<DocumentElementSetMap>()));
+                       (MakeGarbageCollected<DocumentElementSetMap>()));
   return *map;
 }
 

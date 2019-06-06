@@ -17,7 +17,7 @@ namespace blink {
 
 BatteryDispatcher& BatteryDispatcher::Instance() {
   DEFINE_ISOLATE_BOUND(Persistent<BatteryDispatcher>, battery_dispatcher,
-                      (MakeGarbageCollected<BatteryDispatcher>()));
+                       (MakeGarbageCollected<BatteryDispatcher>()));
   return *battery_dispatcher;
 }
 

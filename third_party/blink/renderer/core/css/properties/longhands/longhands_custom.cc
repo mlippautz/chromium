@@ -539,7 +539,7 @@ const CSSValue* AnimationDirection::CSSValueFromComputedStyleInternal(
 
 const CSSValue* AnimationDirection::InitialValue() const {
   DEFINE_ISOLATE_BOUND(Persistent<CSSValue>, value,
-                      (CSSIdentifierValue::Create(CSSValueID::kNormal)));
+                       (CSSIdentifierValue::Create(CSSValueID::kNormal)));
   return value;
 }
 
@@ -600,7 +600,7 @@ const CSSValue* AnimationFillMode::CSSValueFromComputedStyleInternal(
 
 const CSSValue* AnimationFillMode::InitialValue() const {
   DEFINE_ISOLATE_BOUND(Persistent<CSSValue>, value,
-                      (CSSIdentifierValue::Create(CSSValueID::kNone)));
+                       (CSSIdentifierValue::Create(CSSValueID::kNone)));
   return value;
 }
 
@@ -671,7 +671,7 @@ const CSSValue* AnimationName::CSSValueFromComputedStyleInternal(
 
 const CSSValue* AnimationName::InitialValue() const {
   DEFINE_ISOLATE_BOUND(Persistent<CSSValue>, value,
-                      (CSSIdentifierValue::Create(CSSValueID::kNone)));
+                       (CSSIdentifierValue::Create(CSSValueID::kNone)));
   return value;
 }
 
@@ -706,7 +706,7 @@ const CSSValue* AnimationPlayState::CSSValueFromComputedStyleInternal(
 
 const CSSValue* AnimationPlayState::InitialValue() const {
   DEFINE_ISOLATE_BOUND(Persistent<CSSValue>, value,
-                      (CSSIdentifierValue::Create(CSSValueID::kRunning)));
+                       (CSSIdentifierValue::Create(CSSValueID::kRunning)));
   return value;
 }
 
@@ -730,7 +730,7 @@ const CSSValue* AnimationTimingFunction::CSSValueFromComputedStyleInternal(
 
 const CSSValue* AnimationTimingFunction::InitialValue() const {
   DEFINE_ISOLATE_BOUND(Persistent<CSSValue>, value,
-                      (CSSIdentifierValue::Create(CSSValueID::kEase)));
+                       (CSSIdentifierValue::Create(CSSValueID::kEase)));
   return value;
 }
 
@@ -1223,7 +1223,7 @@ const CSSValue* BorderImageRepeat::CSSValueFromComputedStyleInternal(
 
 const CSSValue* BorderImageRepeat::InitialValue() const {
   DEFINE_ISOLATE_BOUND(Persistent<CSSValue>, value,
-                      (CSSIdentifierValue::Create(CSSValueID::kStretch)));
+                       (CSSIdentifierValue::Create(CSSValueID::kStretch)));
   return value;
 }
 
@@ -1276,7 +1276,7 @@ const CSSValue* BorderImageSource::CSSValueFromComputedStyleInternal(
 
 const CSSValue* BorderImageSource::InitialValue() const {
   DEFINE_ISOLATE_BOUND(Persistent<CSSValue>, value,
-                      (CSSIdentifierValue::Create(CSSValueID::kNone)));
+                       (CSSIdentifierValue::Create(CSSValueID::kNone)));
   return value;
 }
 
@@ -6726,7 +6726,7 @@ const CSSValue* TransitionProperty::CSSValueFromComputedStyleInternal(
 
 const CSSValue* TransitionProperty::InitialValue() const {
   DEFINE_ISOLATE_BOUND(Persistent<CSSValue>, value,
-                      (CSSIdentifierValue::Create(CSSValueID::kAll)));
+                       (CSSIdentifierValue::Create(CSSValueID::kAll)));
   return value;
 }
 
@@ -6750,7 +6750,7 @@ const CSSValue* TransitionTimingFunction::CSSValueFromComputedStyleInternal(
 
 const CSSValue* TransitionTimingFunction::InitialValue() const {
   DEFINE_ISOLATE_BOUND(Persistent<CSSValue>, value,
-                      (CSSIdentifierValue::Create(CSSValueID::kEase)));
+                       (CSSIdentifierValue::Create(CSSValueID::kEase)));
   return value;
 }
 

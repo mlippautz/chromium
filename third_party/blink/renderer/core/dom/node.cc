@@ -139,8 +139,8 @@ namespace {
 // are moved around.
 ScrollCustomizationCallbacks& GetScrollCustomizationCallbacks() {
   DEFINE_ISOLATE_BOUND(Persistent<ScrollCustomizationCallbacks>,
-                      scroll_customization_callbacks,
-                      (MakeGarbageCollected<ScrollCustomizationCallbacks>()));
+                       scroll_customization_callbacks,
+                       (MakeGarbageCollected<ScrollCustomizationCallbacks>()));
   return *scroll_customization_callbacks;
 }
 
@@ -2413,7 +2413,7 @@ using EventTargetDataMap =
     HeapHashMap<WeakMember<Node>, Member<EventTargetData>>;
 static EventTargetDataMap& GetEventTargetDataMap() {
   DEFINE_ISOLATE_BOUND(Persistent<EventTargetDataMap>, map,
-                      (MakeGarbageCollected<EventTargetDataMap>()));
+                       (MakeGarbageCollected<EventTargetDataMap>()));
   return *map;
 }
 

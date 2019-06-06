@@ -15,7 +15,7 @@ constexpr base::TimeDelta LongTaskDetector::kLongTaskThreshold;
 // static
 LongTaskDetector& LongTaskDetector::Instance() {
   DEFINE_ISOLATE_BOUND(Persistent<LongTaskDetector>, long_task_detector,
-                      (MakeGarbageCollected<LongTaskDetector>()));
+                       (MakeGarbageCollected<LongTaskDetector>()));
   DCHECK(IsMainThread());
   return *long_task_detector;
 }

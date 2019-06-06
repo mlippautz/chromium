@@ -97,13 +97,13 @@ void ResetPluginCache(bool reload_pages) {
 // not observable from scripts.
 static Page::PageSet& AllPages() {
   DEFINE_ISOLATE_BOUND(Persistent<Page::PageSet>, pages,
-                      (MakeGarbageCollected<Page::PageSet>()));
+                       (MakeGarbageCollected<Page::PageSet>()));
   return *pages;
 }
 
 Page::PageSet& Page::OrdinaryPages() {
   DEFINE_ISOLATE_BOUND(Persistent<Page::PageSet>, pages,
-                      (MakeGarbageCollected<Page::PageSet>()));
+                       (MakeGarbageCollected<Page::PageSet>()));
   return *pages;
 }
 

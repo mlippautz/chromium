@@ -48,7 +48,7 @@ typedef HeapHashMap<Member<Node>, Member<ChildListMutationAccumulator>>
 
 static AccumulatorMap& GetAccumulatorMap() {
   DEFINE_ISOLATE_BOUND(Persistent<AccumulatorMap>, map,
-                      (MakeGarbageCollected<AccumulatorMap>()));
+                       (MakeGarbageCollected<AccumulatorMap>()));
   return *map;
 }
 

@@ -156,7 +156,7 @@ bool ShouldUseClientLoFiForRequest(
 
 WeakPersistent<LocalFrame>& UserActivationNotifierFrame() {
   DEFINE_ISOLATE_BOUND(WeakPersistent<LocalFrame>,
-                      user_activation_notifier_frame, (nullptr));
+                       user_activation_notifier_frame, (nullptr));
   return user_activation_notifier_frame;
 }
 

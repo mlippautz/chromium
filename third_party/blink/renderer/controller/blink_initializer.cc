@@ -82,7 +82,7 @@ Thread::TaskObserver* g_end_of_task_runner = nullptr;
 
 BlinkInitializer& GetBlinkInitializer() {
   DEFINE_ISOLATE_BOUND(std::unique_ptr<BlinkInitializer>, initializer,
-                      (std::make_unique<BlinkInitializer>()));
+                       (std::make_unique<BlinkInitializer>()));
   return *initializer;
 }
 

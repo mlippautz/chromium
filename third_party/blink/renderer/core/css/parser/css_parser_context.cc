@@ -183,9 +183,9 @@ bool CSSParserContext::operator==(const CSSParserContext& other) const {
 const CSSParserContext* StrictCSSParserContext(
     SecureContextMode secure_context_mode) {
   DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<CSSParserContext>>,
-                                  strict_context_pool, ());
+                       strict_context_pool, ());
   DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<CSSParserContext>>,
-                                  secure_strict_context_pool, ());
+                       secure_strict_context_pool, ());
 
   Persistent<CSSParserContext>& context =
       secure_context_mode == SecureContextMode::kSecureContext

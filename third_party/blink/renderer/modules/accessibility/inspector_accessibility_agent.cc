@@ -505,7 +505,7 @@ using EnabledAgentsMultimap =
 
 EnabledAgentsMultimap& EnabledAgents() {
   DEFINE_ISOLATE_BOUND(Persistent<EnabledAgentsMultimap>, enabled_agents,
-                      (MakeGarbageCollected<EnabledAgentsMultimap>()));
+                       (MakeGarbageCollected<EnabledAgentsMultimap>()));
   return *enabled_agents;
 }
 

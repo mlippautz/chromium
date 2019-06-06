@@ -1096,7 +1096,7 @@ static void AppendBackgroundRepeatValue(StringBuilder& builder,
                                         const CSSValue& repeat_ycss_value) {
   // FIXME: Ensure initial values do not appear in CSS_VALUE_LISTS.
   DEFINE_ISOLATE_BOUND(Persistent<CSSIdentifierValue>, initial_repeat_value,
-                      (CSSIdentifierValue::Create(CSSValueID::kRepeat)));
+                       (CSSIdentifierValue::Create(CSSValueID::kRepeat)));
   const CSSIdentifierValue& repeat_x =
       repeat_xcss_value.IsInitialValue()
           ? *initial_repeat_value

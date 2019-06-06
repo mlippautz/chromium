@@ -39,7 +39,7 @@ using SelectorTextCache = HeapHashMap<WeakMember<const CSSStyleRule>, String>;
 
 static SelectorTextCache& GetSelectorTextCache() {
   DEFINE_ISOLATE_BOUND(Persistent<SelectorTextCache>, cache,
-                      (MakeGarbageCollected<SelectorTextCache>()));
+                       (MakeGarbageCollected<SelectorTextCache>()));
   return *cache;
 }
 

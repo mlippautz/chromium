@@ -47,7 +47,7 @@ namespace blink {
 
 void FillWithEmptyClients(Page::PageClients& page_clients) {
   DEFINE_ISOLATE_BOUND(Persistent<ChromeClient>, dummy_chrome_client,
-                      (MakeGarbageCollected<EmptyChromeClient>()));
+                       (MakeGarbageCollected<EmptyChromeClient>()));
   page_clients.chrome_client = dummy_chrome_client;
 }
 

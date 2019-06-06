@@ -847,7 +847,7 @@ void InspectorOverlayAgent::EnsureOverlayPageCreated() {
   overlay_settings.SetLoadsImagesAutomatically(true);
 
   DEFINE_ISOLATE_BOUND(Persistent<LocalFrameClient>, dummy_local_frame_client,
-                      (MakeGarbageCollected<EmptyLocalFrameClient>()));
+                       (MakeGarbageCollected<EmptyLocalFrameClient>()));
   auto* frame = MakeGarbageCollected<LocalFrame>(dummy_local_frame_client,
                                                  *overlay_page_, nullptr);
   frame->SetView(MakeGarbageCollected<LocalFrameView>(*frame));
@@ -863,7 +863,7 @@ void InspectorOverlayAgent::LoadFrameForTool() {
   frame_resource_name_ = inspect_tool_->GetDataResourceName();
 
   DEFINE_ISOLATE_BOUND(Persistent<LocalFrameClient>, dummy_local_frame_client,
-                      (MakeGarbageCollected<EmptyLocalFrameClient>()));
+                       (MakeGarbageCollected<EmptyLocalFrameClient>()));
   auto* frame = MakeGarbageCollected<LocalFrame>(dummy_local_frame_client,
                                                  *overlay_page_, nullptr);
   frame->SetView(MakeGarbageCollected<LocalFrameView>(*frame));

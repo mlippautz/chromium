@@ -224,7 +224,7 @@ void MutationObserver::ObservationEnded(
 
 static MutationObserverSet& ActiveMutationObservers() {
   DEFINE_ISOLATE_BOUND(Persistent<MutationObserverSet>, active_observers,
-                      (MakeGarbageCollected<MutationObserverSet>()));
+                       (MakeGarbageCollected<MutationObserverSet>()));
   return *active_observers;
 }
 
@@ -235,13 +235,13 @@ using SlotChangeList = HeapVector<Member<HTMLSlotElement>>;
 // https://html.spec.whatwg.org/C/#unit-of-related-similar-origin-browsing-contexts
 static SlotChangeList& ActiveSlotChangeList() {
   DEFINE_ISOLATE_BOUND(Persistent<SlotChangeList>, slot_change_list,
-                      (MakeGarbageCollected<SlotChangeList>()));
+                       (MakeGarbageCollected<SlotChangeList>()));
   return *slot_change_list;
 }
 
 static MutationObserverSet& SuspendedMutationObservers() {
   DEFINE_ISOLATE_BOUND(Persistent<MutationObserverSet>, suspended_observers,
-                      (MakeGarbageCollected<MutationObserverSet>()));
+                       (MakeGarbageCollected<MutationObserverSet>()));
   return *suspended_observers;
 }
 

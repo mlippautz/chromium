@@ -84,8 +84,8 @@ void EventDispatcher::DispatchSimulatedClick(
   // prevent the code from running into an infinite recursion of
   // dispatchSimulatedClick().
   DEFINE_ISOLATE_BOUND(Persistent<HeapHashSet<Member<Node>>>,
-                      nodes_dispatching_simulated_clicks,
-                      (MakeGarbageCollected<HeapHashSet<Member<Node>>>()));
+                       nodes_dispatching_simulated_clicks,
+                       (MakeGarbageCollected<HeapHashSet<Member<Node>>>()));
 
   if (IsDisabledFormControl(&node))
     return;

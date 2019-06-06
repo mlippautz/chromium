@@ -133,9 +133,8 @@ Mutex& WebGLContextLimitMutex() {
 using WebGLRenderingContextBaseSet =
     HeapHashSet<WeakMember<WebGLRenderingContextBase>>;
 WebGLRenderingContextBaseSet& ActiveContexts() {
-  DEFINE_ISOLATE_BOUND(
-      ThreadSpecific<Persistent<WebGLRenderingContextBaseSet>>, active_contexts,
-      ());
+  DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<WebGLRenderingContextBaseSet>>,
+                       active_contexts, ());
   Persistent<WebGLRenderingContextBaseSet>& active_contexts_persistent =
       *active_contexts;
   if (!active_contexts_persistent) {
@@ -149,9 +148,8 @@ WebGLRenderingContextBaseSet& ActiveContexts() {
 using WebGLRenderingContextBaseMap =
     HeapHashMap<WeakMember<WebGLRenderingContextBase>, int>;
 WebGLRenderingContextBaseMap& ForciblyEvictedContexts() {
-  DEFINE_ISOLATE_BOUND(
-      ThreadSpecific<Persistent<WebGLRenderingContextBaseMap>>,
-      forcibly_evicted_contexts, ());
+  DEFINE_ISOLATE_BOUND(ThreadSpecific<Persistent<WebGLRenderingContextBaseMap>>,
+                       forcibly_evicted_contexts, ());
   Persistent<WebGLRenderingContextBaseMap>&
       forcibly_evicted_contexts_persistent = *forcibly_evicted_contexts;
   if (!forcibly_evicted_contexts_persistent) {

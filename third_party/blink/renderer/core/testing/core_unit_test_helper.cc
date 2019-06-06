@@ -38,7 +38,7 @@ void LocalFrameClientWithParent::Detached(FrameDetachType) {
 
 RenderingTestChromeClient& RenderingTest::GetChromeClient() const {
   DEFINE_ISOLATE_BOUND(Persistent<RenderingTestChromeClient>, client,
-                      (MakeGarbageCollected<RenderingTestChromeClient>()));
+                       (MakeGarbageCollected<RenderingTestChromeClient>()));
   return *client;
 }
 
