@@ -62,6 +62,7 @@ class IncrementalMarkingScope;
 class IncrementalMarkingTestDriver;
 }  // namespace incremental_marking_test
 
+class Isolate;
 class MarkingVisitor;
 class PersistentNode;
 class PersistentRegion;
@@ -426,6 +427,9 @@ class PLATFORM_EXPORT ThreadState final : private RAILModeObserver {
   // Implementation for RAILModeObserver
   void OnRAILModeChanged(RAILMode new_mode) override;
 
+  Isolate* BlinkIsolate() const { return blink_isolate_; }
+  void SetBlinkIsolate(Isolate* isolate) { blink_isolate_ = isolate; }
+
  private:
   // Stores whether some ThreadState is currently in incremental marking.
   static AtomicEntryFlag incremental_marking_flag_;
@@ -560,6 +564,7 @@ class PLATFORM_EXPORT ThreadState final : private RAILModeObserver {
   LinkedHashSet<PreFinalizer> ordered_pre_finalizers_;
 
   v8::Isolate* isolate_ = nullptr;
+  Isolate* blink_isolate_ = nullptr;
   void (*trace_dom_wrappers_)(v8::Isolate*, Visitor*) = nullptr;
 
 #if defined(ADDRESS_SANITIZER)
