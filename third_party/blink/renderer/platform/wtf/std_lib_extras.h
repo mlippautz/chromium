@@ -40,6 +40,8 @@
 #include "third_party/blink/renderer/platform/wtf/threading.h"
 #endif
 
+// TODO(gab): DCHECK that MakeGarbageCollected isn't called from this macro.
+// Places where the DCHECK fails need to use DEFINE_ISOLATE_BOUND.
 #define DEFINE_STATIC_LOCAL_IMPL(Type, Name, Arguments, allow_cross_thread)    \
   static WTF::StaticSingleton<Type> s_##Name(                                  \
       [&]() { return new WTF::StaticSingleton<Type>::WrapperType Arguments; }, \
