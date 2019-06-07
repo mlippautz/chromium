@@ -183,6 +183,7 @@ jumbo_component("wtf") {
     "time.cc",
     "time.h",
     "tree_node.h",
+    "type_traits.cc",
     "type_traits.h",
     "typed_arrays/array_buffer.cc",
     "typed_arrays/array_buffer.h",

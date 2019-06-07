@@ -25,9 +25,13 @@
 #include <cstddef>
 #include <type_traits>
 #include <utility>
+
 #include "base/compiler_specific.h"
+#include "base/logging.h"
+#include "base/macros.h"
 #include "base/template_util.h"
 #include "build/build_config.h"
+#include "third_party/blink/renderer/platform/wtf/wtf_export.h"
 
 namespace WTF {
 
@@ -249,6 +253,30 @@ template <typename T>
 struct IsStackAllocatedType<
     T,
     base::void_t<typename T::IsStackAllocatedTypeMarker>> : std::true_type {};
+
+namespace internal {
+
+class WTF_EXPORT ScopedBanGarbageCollectedAlloc {
+ public:
+#if DCHECK_IS_ON()
+  // Within the scope of this object, GarbageCollected::AllocateObject() will
+  // DCHECK.
+  ScopedBanGarbageCollectedAlloc();
+  ~ScopedBanGarbageCollectedAlloc();
+#endif  // DCHECK_IS_ON()
+
+  // Must be called right after WTF::Threading::Initialize(), while blink is
+  // still in its single-threaded init phase. ScopedBanGarbageCollectedAlloc
+  // objects will be no-ops before that point.
+  static void Enable();
+
+ private:
+  DISALLOW_COPY_AND_ASSIGN(ScopedBanGarbageCollectedAlloc);
+};
+
+}  // namespace internal
+
+WTF_EXPORT bool IsGarbageCollectedAllocAllowed();
 
 }  // namespace WTF
 
