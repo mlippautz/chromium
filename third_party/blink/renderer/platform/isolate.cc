@@ -11,14 +11,15 @@ namespace blink {
 
 namespace {
 
-Isolate* g_current_main_thread_isolate = nullptr;
-
 ThreadSpecific<Isolate*>& GetIsolateCache() {
   DEFINE_THREAD_SAFE_STATIC_LOCAL(ThreadSpecific<Isolate*>, isolate_cache, ());
   return isolate_cache;
 }
 
 }  // namespace
+
+// static
+Isolate* Isolate::g_current_main_thread_isolate_ = nullptr;
 
 std::atomic<size_t> Isolate::global_count_ = {0};
 typename Isolate::CreateFunc Isolate::create_funcs_[Isolate::kMaxGlobals];
@@ -27,8 +28,8 @@ constexpr size_t Isolate::kMaxGlobals;
 // static
 Isolate* Isolate::Current() {
   if (WTF::IsMainThread()) {
-    DCHECK(g_current_main_thread_isolate);
-    return g_current_main_thread_isolate;
+    DCHECK(g_current_main_thread_isolate_);
+    return g_current_main_thread_isolate_;
   }
   DCHECK(*GetIsolateCache());
   return *GetIsolateCache();
@@ -37,7 +38,7 @@ Isolate* Isolate::Current() {
 // static
 void Isolate::SetCurrentFromMainThread(Isolate* isolate) {
   DCHECK(WTF::IsMainThread());
-  g_current_main_thread_isolate = isolate;
+  g_current_main_thread_isolate_ = isolate;
 }
 
 // static

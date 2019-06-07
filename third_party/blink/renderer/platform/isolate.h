@@ -16,6 +16,11 @@ class PLATFORM_EXPORT Isolate {
 
   explicit Isolate(Isolate*);
 
+  ALWAYS_INLINE static Isolate* MainThreadCurrent() {
+    DCHECK(WTF::IsMainThread());
+    return g_current_main_thread_isolate_;
+  }
+
   static Isolate* Current();
   static void SetCurrentFromMainThread(Isolate*);
   static void SetCurrentFromWorker(Isolate*);
@@ -27,9 +32,12 @@ class PLATFORM_EXPORT Isolate {
                                          : CreateGlobal(index);
   }
 
+  ALWAYS_INLINE void** GetGlobalSlot(size_t index) { return &globals_[index]; }
+
   Isolate* ParentIsolate() const;
 
  private:
+  static Isolate* g_current_main_thread_isolate_;
   static constexpr size_t kMaxGlobals = 512;
 
   void* CreateGlobal(size_t);
@@ -40,6 +48,40 @@ class PLATFORM_EXPORT Isolate {
   Isolate* parent_ = nullptr;
   void* globals_[kMaxGlobals] = {0};
   bool globals_initialized_[kMaxGlobals] = {false};
+};
+
+// Helper template for wrapping simple global scope static locals.
+// These are typically used as fast-path lookups, so will likely
+// need to be "painted" on isolate context switch, but for now we
+// simply make them lookup on access.
+template <typename T>
+class IsolateBoundGlobalStaticPtr {
+ public:
+  // Emulate being a simple T* from the outside.
+  ALWAYS_INLINE T*& operator=(T* value) { return *GetImpl(); }
+  ALWAYS_INLINE T& operator*() { return **GetImpl(); }
+  ALWAYS_INLINE T* operator->() { return *GetImpl(); }
+  ALWAYS_INLINE operator T*() { return *GetImpl(); }
+
+ private:
+  static constexpr size_t kInvalidOffset = static_cast<size_t>(-1);
+
+  ALWAYS_INLINE T** GetImpl() {
+    if (offset_ == kInvalidOffset)
+      offset_ = blink::Isolate::RegisterGlobal(&Create);
+    return reinterpret_cast<T**>(
+        blink::Isolate::MainThreadCurrent()->GetGlobalSlot(offset_));
+  }
+
+  // A dummy Create function to satisfy the Isolate contract.
+  // This should never actually run, as we directly access the underlying
+  // slot.
+  static void* Create() {
+    NOTREACHED();
+    return nullptr;
+  }
+
+  size_t offset_ = kInvalidOffset;
 };
 
 // These macros can only be used from function scope, and not from global
