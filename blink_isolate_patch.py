@@ -308,15 +308,13 @@ def ApplyThreadSafeEditToFile(path, lines, line_number):
   ApplySimpleEditToFile(path, lines, line_number, DEFINE_THREAD_SAFE_STATIC_LOCAL, DEFINE_ISOLATE_BOUND)
   EnsureHeaderInFile(path, lines, ISOLATE_HEADER)
 
-GLOBAL_REGEX = re.compile('(static\s)?(.*)\*\s(.*)')
+GLOBAL_REGEX = re.compile('((?:\s*static\s)?)(.*)\*\s([a-z0-9_]*)')
 def ApplyGlobalEditToFile(path, lines, line_number, type):
   line_no, match = FindLineToEdit(lines, line_number, GLOBAL_REGEX)
   if not line_no:
     raise Exception('Unable to edit line %d of file "%s": %s' % (line_number, path, lines[line_number]))
-
-  lines[line_no] = re.sub(GLOBAL_REGEX, r'\g<1>Bim<\g<2>> \g<3>', lines[line_no])
+  lines[line_no] = re.sub(GLOBAL_REGEX, r'\1IsolateBoundGlobalStaticPtr<\2> \3', lines[line_no])
   EnsureHeaderInFile(path, lines, ISOLATE_HEADER)
-
 
 def ApplyEditToFile(path, lines, line_number, edit_type, params):
   if edit_type == STATIC:
