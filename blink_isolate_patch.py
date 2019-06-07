@@ -314,7 +314,8 @@ def ApplyGlobalEditToFile(path, lines, line_number, type):
   if not line_no:
     raise Exception('Unable to edit line %d of file "%s": %s' % (line_number, path, lines[line_number]))
   lines[line_no] = re.sub(GLOBAL_REGEX, r'\1IsolateBoundGlobalStaticPtr<\2> \3', lines[line_no])
-  EnsureHeaderInFile(path, lines, ISOLATE_HEADER)
+  if type != "definition":
+    EnsureHeaderInFile(path, lines, ISOLATE_HEADER)
 
 def ApplyEditToFile(path, lines, line_number, edit_type, params):
   if edit_type == STATIC:
