@@ -39,7 +39,7 @@
 
 namespace blink {
 
-ScopedEventQueue* ScopedEventQueue::instance_ = nullptr;
+blink::IsolateBoundGlobalStaticPtr<ScopedEventQueue> ScopedEventQueue::instance_ = nullptr;
 
 ScopedEventQueue::ScopedEventQueue()
     : queued_events_(MakeGarbageCollected<HeapVector<Member<Event>>>()),

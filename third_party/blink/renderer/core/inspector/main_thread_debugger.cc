@@ -87,7 +87,7 @@ LocalFrame* ToFrame(ExecutionContext* context) {
 }
 }
 
-MainThreadDebugger* MainThreadDebugger::instance_ = nullptr;
+blink::IsolateBoundGlobalStaticPtr<MainThreadDebugger> MainThreadDebugger::instance_ = nullptr;
 
 MainThreadDebugger::MainThreadDebugger(v8::Isolate* isolate)
     : ThreadDebugger(isolate),
@@ -99,7 +99,7 @@ MainThreadDebugger::MainThreadDebugger(v8::Isolate* isolate)
 
 MainThreadDebugger::~MainThreadDebugger() {
   MutexLocker locker(CreationMutex());
-  DCHECK_EQ(instance_, this);
+  DCHECK(instance_ == this);
   instance_ = nullptr;
 }
 

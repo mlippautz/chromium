@@ -32,6 +32,7 @@
 #define THIRD_PARTY_BLINK_PUBLIC_PLATFORM_WEB_PRERENDERING_SUPPORT_H_
 
 #include "third_party/blink/public/platform/web_common.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 
 namespace blink {
 
@@ -65,7 +66,7 @@ class WebPrerenderingSupport {
   virtual ~WebPrerenderingSupport() = default;
 
  private:
-  static WebPrerenderingSupport* platform_;
+  static blink::IsolateBoundGlobalStaticPtr<WebPrerenderingSupport> platform_;
 };
 
 }  // namespace blink

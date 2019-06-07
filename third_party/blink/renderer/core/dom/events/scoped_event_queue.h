@@ -37,6 +37,7 @@
 #include "third_party/blink/renderer/core/dom/events/event.h"
 #include "third_party/blink/renderer/platform/heap/handle.h"
 #include "third_party/blink/renderer/platform/heap/persistent.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/vector.h"
 
 namespace blink {
@@ -63,7 +64,7 @@ class CORE_EXPORT ScopedEventQueue {
   Persistent<HeapVector<Member<Event>>> queued_events_;
   unsigned scoping_level_;
 
-  static ScopedEventQueue* instance_;
+  static blink::IsolateBoundGlobalStaticPtr<ScopedEventQueue> instance_;
   DISALLOW_COPY_AND_ASSIGN(ScopedEventQueue);
 };
 

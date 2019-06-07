@@ -32,7 +32,7 @@
 
 namespace blink {
 
-WebPrerenderingSupport* WebPrerenderingSupport::platform_ = nullptr;
+blink::IsolateBoundGlobalStaticPtr<WebPrerenderingSupport> WebPrerenderingSupport::platform_ = nullptr;
 
 // static
 void WebPrerenderingSupport::Initialize(WebPrerenderingSupport* platform) {

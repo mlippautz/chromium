@@ -85,6 +85,7 @@
 #include "third_party/blink/renderer/platform/graphics/graphics_context.h"
 #include "third_party/blink/renderer/platform/graphics/paint/paint_controller.h"
 #include "third_party/blink/renderer/platform/instrumentation/tracing/trace_event.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/math_extras.h"
 #include "third_party/blink/renderer/platform/wtf/text/wtf_string.h"
 #include "third_party/blink/renderer/platform/wtf/vector.h"
@@ -213,10 +214,10 @@ class ClientMessageLoopAdapter : public MainThreadDebugger::ClientMessageLoop {
   bool running_for_page_wait_;
   std::unique_ptr<Platform::NestedMessageLoopRunner> message_loop_;
 
-  static ClientMessageLoopAdapter* instance_;
+  static blink::IsolateBoundGlobalStaticPtr<ClientMessageLoopAdapter> instance_;
 };
 
-ClientMessageLoopAdapter* ClientMessageLoopAdapter::instance_ = nullptr;
+blink::IsolateBoundGlobalStaticPtr<ClientMessageLoopAdapter> ClientMessageLoopAdapter::instance_ = nullptr;
 
 void WebDevToolsAgentImpl::AttachSession(DevToolsSession* session,
                                          bool restore) {

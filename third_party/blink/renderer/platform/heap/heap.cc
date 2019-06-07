@@ -611,6 +611,6 @@ bool ThreadHeap::AdvanceLazySweep(TimeTicks deadline) {
   return true;
 }
 
-ThreadHeap* ThreadHeap::main_thread_heap_ = nullptr;
+blink::IsolateBoundGlobalStaticPtr<ThreadHeap> ThreadHeap::main_thread_heap_ = nullptr;
 
 }  // namespace blink

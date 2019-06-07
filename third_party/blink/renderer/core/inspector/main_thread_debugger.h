@@ -38,6 +38,7 @@
 #include "third_party/blink/renderer/core/inspector/thread_debugger.h"
 #include "third_party/blink/renderer/platform/bindings/script_state.h"
 #include "third_party/blink/renderer/platform/heap/handle.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "v8/include/v8-inspector.h"
 #include "v8/include/v8.h"
 
@@ -117,7 +118,7 @@ class CORE_EXPORT MainThreadDebugger final : public ThreadDebugger {
 
   std::unique_ptr<ClientMessageLoop> client_message_loop_;
   bool paused_;
-  static MainThreadDebugger* instance_;
+  static blink::IsolateBoundGlobalStaticPtr<MainThreadDebugger> instance_;
   std::unique_ptr<DocumentLifecycle::PostponeTransitionScope>
       postponed_transition_scope_;
   DISALLOW_COPY_AND_ASSIGN(MainThreadDebugger);

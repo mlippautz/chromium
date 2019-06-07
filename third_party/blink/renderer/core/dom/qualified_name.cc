@@ -25,6 +25,7 @@
 #include "third_party/blink/renderer/core/xlink_names.h"
 #include "third_party/blink/renderer/core/xml_names.h"
 #include "third_party/blink/renderer/core/xmlns_names.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/assertions.h"
 #include "third_party/blink/renderer/platform/wtf/hash_set.h"
 #include "third_party/blink/renderer/platform/wtf/static_constructors.h"
@@ -48,8 +49,8 @@ using QualifiedNameCache =
 static QualifiedNameCache& GetQualifiedNameCache() {
   // This code is lockless and thus assumes it all runs on one thread!
   DCHECK(IsMainThread());
-  static QualifiedNameCache* g_name_cache = new QualifiedNameCache;
-  return *g_name_cache;
+  DEFINE_ISOLATE_BOUND(QualifiedNameCache, g_name_cache, ());
+  return g_name_cache;
 }
 
 struct QNameComponentsTranslator {

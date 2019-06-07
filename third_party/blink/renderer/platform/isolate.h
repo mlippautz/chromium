@@ -5,9 +5,11 @@
 #ifndef THIRD_PARTY_BLINK_RENDERER_PLATFORM_ISOLATE_H_
 #define THIRD_PARTY_BLINK_RENDERER_PLATFORM_ISOLATE_H_
 
+#include <atomic>
+
+#include "base/logging.h"
+#include "base/compiler_specific.h"
 #include "third_party/blink/renderer/platform/platform_export.h"
-#include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
-#include "third_party/blink/renderer/platform/wtf/wtf.h"
 
 namespace blink {
 
@@ -18,7 +20,7 @@ class PLATFORM_EXPORT Isolate {
   explicit Isolate(Isolate*);
 
   ALWAYS_INLINE static Isolate* MainThreadCurrent() {
-    DCHECK(WTF::IsMainThread());
+    DCHECK(IsMainThread());
     return g_current_main_thread_isolate_;
   }
 
@@ -41,6 +43,8 @@ class PLATFORM_EXPORT Isolate {
   static Isolate* g_current_main_thread_isolate_;
   static constexpr size_t kMaxGlobals = 512;
 
+  static bool IsMainThread();
+
   void* CreateGlobal(size_t);
 
   static std::atomic<size_t> global_count_;
@@ -58,6 +62,9 @@ class PLATFORM_EXPORT Isolate {
 template <typename T>
 class IsolateBoundGlobalStaticPtr {
  public:
+  constexpr IsolateBoundGlobalStaticPtr() = default;
+  constexpr IsolateBoundGlobalStaticPtr(std::nullptr_t){}
+
   // Emulate being a simple T* from the outside.
   ALWAYS_INLINE T*& operator=(T* value) { return *GetImpl(); }
   ALWAYS_INLINE T& operator*() { return **GetImpl(); }

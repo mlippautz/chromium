@@ -36,11 +36,12 @@
 #include "third_party/blink/renderer/modules/webdatabase/database_tracker.h"
 #include "third_party/blink/renderer/modules/webdatabase/storage_log.h"
 #include "third_party/blink/renderer/platform/bindings/exception_state.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/weborigin/security_origin.h"
 
 namespace blink {
 
-static DatabaseManager* g_database_manager;
+static blink::IsolateBoundGlobalStaticPtr<DatabaseManager> g_database_manager;
 
 DatabaseManager& DatabaseManager::Manager() {
   DCHECK(IsMainThread());

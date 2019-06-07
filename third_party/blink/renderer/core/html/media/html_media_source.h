@@ -35,6 +35,7 @@
 #include "third_party/blink/renderer/core/core_export.h"
 #include "third_party/blink/renderer/core/fileapi/url_registry.h"
 #include "third_party/blink/renderer/platform/heap/handle.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/wtf/forward.h"
 
 namespace blink {
@@ -74,7 +75,7 @@ class CORE_EXPORT HTMLMediaSource : public URLRegistrable,
   URLRegistry& Registry() const override { return *registry_; }
 
  private:
-  static URLRegistry* registry_;
+  static blink::IsolateBoundGlobalStaticPtr<URLRegistry> registry_;
 };
 
 }  // namespace blink

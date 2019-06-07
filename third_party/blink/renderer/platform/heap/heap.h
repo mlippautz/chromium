@@ -42,6 +42,7 @@
 #include "third_party/blink/renderer/platform/heap/thread_state.h"
 #include "third_party/blink/renderer/platform/heap/visitor.h"
 #include "third_party/blink/renderer/platform/heap/worklist.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/platform_export.h"
 #include "third_party/blink/renderer/platform/wtf/allocator.h"
 #include "third_party/blink/renderer/platform/wtf/assertions.h"
@@ -447,7 +448,7 @@ class PLATFORM_EXPORT ThreadHeap {
       kLikelyToBePromptlyFreedArraySize - 1;
   std::unique_ptr<int[]> likely_to_be_promptly_freed_;
 
-  static ThreadHeap* main_thread_heap_;
+  static blink::IsolateBoundGlobalStaticPtr<ThreadHeap> main_thread_heap_;
 
   friend class incremental_marking_test::IncrementalMarkingScopeBase;
   template <typename T>

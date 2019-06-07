@@ -32,7 +32,7 @@
 
 namespace blink {
 
-URLRegistry* HTMLMediaSource::registry_ = nullptr;
+blink::IsolateBoundGlobalStaticPtr<URLRegistry> HTMLMediaSource::registry_ = nullptr;
 
 void HTMLMediaSource::SetRegistry(URLRegistry* registry) {
   DCHECK(!registry_);

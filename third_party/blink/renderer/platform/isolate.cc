@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "third_party/blink/renderer/platform/isolate.h"
+
 #include "third_party/blink/renderer/platform/wtf/std_lib_extras.h"
 #include "third_party/blink/renderer/platform/wtf/thread_specific.h"
 #include "third_party/blink/renderer/platform/wtf/wtf.h"
@@ -54,6 +55,11 @@ size_t Isolate::RegisterGlobal(CreateFunc create_func) {
   CHECK_LT(index, kMaxGlobals);
   create_funcs_[index] = create_func;
   return index;
+}
+
+// static
+bool Isolate::IsMainThread() {
+  return WTF::IsMainThread();
 }
 
 void* Isolate::CreateGlobal(size_t index) {

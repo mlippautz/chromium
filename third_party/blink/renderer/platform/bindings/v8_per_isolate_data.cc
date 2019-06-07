@@ -43,6 +43,7 @@
 #include "third_party/blink/renderer/platform/bindings/v8_value_cache.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
 #include "third_party/blink/renderer/platform/heap/unified_heap_controller.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/scheduler/public/thread.h"
 #include "third_party/blink/renderer/platform/wtf/leak_annotations.h"
 #include "v8/include/v8.h"
@@ -61,7 +62,7 @@ v8::Isolate* MainThreadIsolate() {
   return V8PerIsolateData::MainThreadIsolate();
 }
 
-static V8PerIsolateData* g_main_thread_per_isolate_data = nullptr;
+static blink::IsolateBoundGlobalStaticPtr<V8PerIsolateData> g_main_thread_per_isolate_data = nullptr;
 
 static void BeforeCallEnteredCallback(v8::Isolate* isolate) {
   CHECK(!ScriptForbiddenScope::IsScriptForbidden());

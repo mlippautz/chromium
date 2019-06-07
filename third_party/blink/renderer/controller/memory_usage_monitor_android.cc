@@ -24,7 +24,7 @@ bool ReadFileContents(int fd, base::span<char> contents) {
   return true;
 }
 
-static MemoryUsageMonitor* g_instance_for_testing = nullptr;
+static blink::IsolateBoundGlobalStaticPtr<MemoryUsageMonitor> g_instance_for_testing = nullptr;
 
 }  // namespace
 

@@ -78,7 +78,7 @@ class EndOfTaskRunner : public Thread::TaskObserver {
   }
 };
 
-Thread::TaskObserver* g_end_of_task_runner = nullptr;
+blink::IsolateBoundGlobalStaticPtr<Thread::TaskObserver> g_end_of_task_runner = nullptr;
 
 BlinkInitializer& GetBlinkInitializer() {
   DEFINE_ISOLATE_BOUND(std::unique_ptr<BlinkInitializer>, initializer,
