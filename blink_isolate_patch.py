@@ -313,7 +313,7 @@ def ApplyGlobalEditToFile(path, lines, line_number, type):
   line_no, match = FindLineToEdit(lines, line_number, GLOBAL_REGEX)
   if not line_no:
     raise Exception('Unable to edit line %d of file "%s": %s' % (line_number, path, lines[line_number]))
-  lines[line_no] = re.sub(GLOBAL_REGEX, r'\1IsolateBoundGlobalStaticPtr<\2> \3', lines[line_no])
+  lines[line_no] = re.sub(GLOBAL_REGEX, r'\1blink::IsolateBoundGlobalStaticPtr<\2> \3', lines[line_no])
   if type != "definition":
     EnsureHeaderInFile(path, lines, ISOLATE_HEADER)
 
