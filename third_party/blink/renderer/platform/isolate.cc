@@ -74,4 +74,17 @@ Isolate* Isolate::ParentIsolate() const {
   return (parent_) ? parent_ : const_cast<Isolate*>(this);
 }
 
+ScopedSetMainThreadIsolate::ScopedSetMainThreadIsolate(Isolate* isolate) {
+  DCHECK(isolate);
+  DCHECK(WTF::IsMainThread());
+  DCHECK(!Isolate::MainThreadCurrent());
+  Isolate::SetCurrentFromMainThread(isolate);
+}
+
+ScopedSetMainThreadIsolate::~ScopedSetMainThreadIsolate() {
+  DCHECK(WTF::IsMainThread());
+  DCHECK(!Isolate::MainThreadCurrent());
+  Isolate::SetCurrentFromMainThread(nullptr);
+}
+
 }  // namespace blink

@@ -25,7 +25,11 @@ class PLATFORM_EXPORT Isolate {
   }
 
   static Isolate* Current();
+
+  // TODO: Make this private, and only accessible from
+  // ScopedSetMainThreadIsolate.
   static void SetCurrentFromMainThread(Isolate*);
+
   static void SetCurrentFromWorker(Isolate*);
 
   static size_t RegisterGlobal(CreateFunc);
@@ -53,6 +57,13 @@ class PLATFORM_EXPORT Isolate {
   Isolate* parent_ = nullptr;
   void* globals_[kMaxGlobals] = {0};
   bool globals_initialized_[kMaxGlobals] = {false};
+};
+
+// Helper class for setting the current main thread isolate.
+class ScopedSetMainThreadIsolate {
+ public:
+  ScopedSetMainThreadIsolate(Isolate* isolate);
+  ~ScopedSetMainThreadIsolate();
 };
 
 // Helper template for wrapping simple global scope static locals.
