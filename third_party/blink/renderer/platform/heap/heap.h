@@ -497,8 +497,7 @@ class GarbageCollected {
   void* operator new(size_t size) = delete;  // Must use MakeGarbageCollected.
 
   static void* AllocateObject(size_t size, bool eagerly_sweep) {
-    // TODO(chrisha: turn this on when macros have been modified)
-    // DCHECK(WTF::IsGarbageCollectedAllocAllowed());
+    DCHECK(WTF::IsGarbageCollectedAllocAllowed());
     if (IsGarbageCollectedMixin<T>::value) {
       // Ban large mixin so we can use PageFromObject() on them.
       CHECK_GE(kLargeObjectSizeThreshold, size)
