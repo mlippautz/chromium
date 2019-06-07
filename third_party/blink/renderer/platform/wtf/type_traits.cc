@@ -13,8 +13,6 @@ namespace internal {
 
 namespace {
 
-bool g_thread_specific_is_enabled = false;
-
 // Like DEFINE_THREAD_SAFE_STATIC_LOCAL but without
 // ScopedBanGarbageCollectedAlloc.
 #define DEFINE_REENTRANT_THREAD_SAFE_STATIC_LOCAL(Type, Name, Arguments)       \
@@ -37,12 +35,6 @@ GetBanGarbageCollectedAllocTLS() {
 
 #if DCHECK_IS_ON()
 ScopedBanGarbageCollectedAlloc::ScopedBanGarbageCollectedAlloc() {
-  // ScopedBanGarbageCollectedAlloc cannot be used before
-  // WTF::Threading::Initialize() as it itself uses ThreadSpecific and causes
-  // reentrancy into uninitialized state.
-  if (!g_thread_specific_is_enabled)
-    return;
-
   auto& ban_garbage_collected_alloc_tls = GetBanGarbageCollectedAllocTLS();
   // Allow nesting, only the last one going out-of-scope will undo the ban.
   if (!ban_garbage_collected_alloc_tls.IsSet())
@@ -50,20 +42,11 @@ ScopedBanGarbageCollectedAlloc::ScopedBanGarbageCollectedAlloc() {
 }
 
 ScopedBanGarbageCollectedAlloc::~ScopedBanGarbageCollectedAlloc() {
-  if (!g_thread_specific_is_enabled)
-    return;
-
   auto& ban_garbage_collected_alloc_tls = GetBanGarbageCollectedAllocTLS();
   if (*ban_garbage_collected_alloc_tls == this)
     *ban_garbage_collected_alloc_tls = nullptr;
 }
 #endif  // DCHECK_IS_ON()
-
-// static
-void ScopedBanGarbageCollectedAlloc::Enable() {
-  DCHECK(IsMainThread());
-  g_thread_specific_is_enabled = true;
-}
 
 }  // namespace internal
 

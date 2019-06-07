@@ -265,11 +265,6 @@ class WTF_EXPORT ScopedBanGarbageCollectedAlloc {
   ~ScopedBanGarbageCollectedAlloc();
 #endif  // DCHECK_IS_ON()
 
-  // Must be called right after WTF::Threading::Initialize(), while blink is
-  // still in its single-threaded init phase. ScopedBanGarbageCollectedAlloc
-  // objects will be no-ops before that point.
-  static void Enable();
-
  private:
   DISALLOW_COPY_AND_ASSIGN(ScopedBanGarbageCollectedAlloc);
 };

@@ -40,7 +40,6 @@
 #include "third_party/blink/renderer/platform/wtf/text/string_statics.h"
 #include "third_party/blink/renderer/platform/wtf/thread_specific.h"
 #include "third_party/blink/renderer/platform/wtf/threading.h"
-#include "third_party/blink/renderer/platform/wtf/type_traits.h"
 #include "third_party/blink/renderer/platform/wtf/typed_arrays/array_buffer_contents.h"
 
 namespace WTF {
@@ -70,7 +69,6 @@ void Initialize(void (*call_on_main_thread_function)(MainThreadFunction,
   g_main_thread_identifier = CurrentThread();
 
   Threading::Initialize();
-  ScopedBanGarbageCollectedAlloc::Enable();
 
   // Force initialization of static DoubleToStringConverter converter variable
   // inside EcmaScriptConverter function while we are in single thread mode.
