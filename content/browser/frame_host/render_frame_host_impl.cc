@@ -1790,6 +1790,8 @@ bool RenderFrameHostImpl::CreateRenderFrame(int previous_routing_id,
     params->widget_params->hidden = true;
   }
 
+  params->site_instance_id = GetSiteInstance()->GetId();
+
   GetProcess()->GetRendererInterface()->CreateFrame(std::move(params));
 
   // The RenderWidgetHost takes ownership of its view. It is tied to the
