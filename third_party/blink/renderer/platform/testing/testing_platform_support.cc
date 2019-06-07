@@ -44,6 +44,7 @@
 #include "third_party/blink/renderer/platform/font_family_names.h"
 #include "third_party/blink/renderer/platform/heap/heap.h"
 #include "third_party/blink/renderer/platform/instrumentation/resource_coordinator/renderer_resource_coordinator.h"
+#include "third_party/blink/renderer/platform/isolate.h"
 #include "third_party/blink/renderer/platform/language.h"
 #include "third_party/blink/renderer/platform/loader/fetch/fetch_initiator_type_names.h"
 #include "third_party/blink/renderer/platform/network/http_names.h"
@@ -166,6 +167,9 @@ ScopedUnittestsEnvironmentSetup::ScopedUnittestsEnvironmentSetup(int argc,
   WTF::Partitions::Initialize(nullptr);
   WTF::Initialize(nullptr);
 
+  blink::Isolate* blink_isolate = new Isolate(nullptr);
+  Isolate::SetCurrentFromMainThread(blink_isolate);
+
   // This must be called after WTF::Initialize(), because ThreadSpecific<>
   // used in this function depends on WTF::IsMainThread().
   Platform::CreateMainThreadForTesting();
@@ -181,6 +185,7 @@ ScopedUnittestsEnvironmentSetup::ScopedUnittestsEnvironmentSetup(int argc,
   ProcessHeap::Init();
   ThreadState::AttachMainThread();
   ThreadState::Current()->RegisterTraceDOMWrappers(nullptr, nullptr);
+  ThreadState::Current()->SetBlinkIsolate(Isolate::Current());
   http_names::Init();
   fetch_initiator_type_names::Init();
 
