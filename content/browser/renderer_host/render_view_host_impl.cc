@@ -386,6 +386,7 @@ bool RenderViewHostImpl::CreateRenderView(
   params->renderer_wide_named_frame_lookup =
       GetSiteInstance()->GetSiteURL().SchemeIs(kGuestScheme);
   params->inside_portal = delegate_->IsPortal();
+  params->site_instance_id = GetSiteInstance()->GetId();
 
   bool needs_ack = false;
   GetWidget()->GetVisualProperties(&params->visual_properties, &needs_ack);
