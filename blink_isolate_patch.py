@@ -107,7 +107,7 @@ def EachBlinkIsolateCsvLine(csv_path, other_columns=None, allow_bad_rows=False):
         isolate_bound = row[isolate_bound_col].strip().lower()
         if isolate_bound == 'yes':
           isolate_bound = True
-        elif isolate_bound == 'no':
+        elif isolate_bound == 'no' or isolate_bound == 'yesmanual':
           isolate_bound = False
         else:
           raise Exception('unknown IsolateBound? value at line %d of file "%s": %s' % (csv_line_no, csv_path, row[isolate_bound_col]))
@@ -132,10 +132,10 @@ THREADSAFE = 2
 GLOBAL = 3
 
 FILE_TYPES = {
-    STATIC: 'Blink Isolates_ DEFINE_STATIC_LOCAL - DEFINE_STATIC_LOCAL.csv',
-    REF: 'Blink Isolates_ DEFINE_STATIC_LOCAL - DEFINE_STATIC_REF.csv',
-    THREADSAFE: 'Blink Isolates_ DEFINE_STATIC_LOCAL - DEFINE_THREAD_SAFE_STATIC_LOCAL.csv'}
-    #GLOBAL: 'Blink Isolates_ DEFINE_STATIC_LOCAL - static member_static local_globals.csv'}
+    #STATIC: 'Blink Isolates_ DEFINE_STATIC_LOCAL - DEFINE_STATIC_LOCAL.csv',
+    #REF: 'Blink Isolates_ DEFINE_STATIC_LOCAL - DEFINE_STATIC_REF.csv',
+    #THREADSAFE: 'Blink Isolates_ DEFINE_STATIC_LOCAL - DEFINE_THREAD_SAFE_STATIC_LOCAL.csv'}
+    GLOBAL: 'Blink Isolates_ DEFINE_STATIC_LOCAL - static member_static local_globals.csv'}
 
 
 def LoadAllBlinkIsolateCsvFiles(allow_bad_rows=False):
@@ -308,9 +308,14 @@ def ApplyThreadSafeEditToFile(path, lines, line_number):
   ApplySimpleEditToFile(path, lines, line_number, DEFINE_THREAD_SAFE_STATIC_LOCAL, DEFINE_ISOLATE_BOUND)
   EnsureHeaderInFile(path, lines, ISOLATE_HEADER)
 
+GLOBAL_REGEX = re.compile('(static\s)?(.*)\*\s(.*)')
+def ApplyGlobalEditToFile(path, lines, line_number, type):
+  line_no, match = FindLineToEdit(lines, line_number, GLOBAL_REGEX)
+  if not line_no:
+    raise Exception('Unable to edit line %d of file "%s": %s' % (line_number, path, lines[line_number]))
 
-def ApplyGlobalEditToFile(path, lines, line_number):
-  pass
+  lines[line_no] = re.sub(GLOBAL_REGEX, r'\g<1>Bim<\g<2>> \g<3>', lines[line_no])
+  EnsureHeaderInFile(path, lines, ISOLATE_HEADER)
 
 
 def ApplyEditToFile(path, lines, line_number, edit_type, params):
@@ -381,7 +386,7 @@ def main():
   file_edits = LoadAllBlinkIsolateCsvFiles(allow_bad_rows=args.allow_bad_rows)
 
   # Remove some no longer needed edits that required manual migration.
-  del file_edits['third_party/blink/renderer/platform/heap/process_heap.cc']
+  #del file_edits['third_party/blink/renderer/platform/heap/process_heap.cc']
 
   # Apply the edits.
   edit_count = 0
