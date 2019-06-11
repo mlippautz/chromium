@@ -62,10 +62,7 @@ v8::Isolate* MainThreadIsolate() {
   return V8PerIsolateData::MainThreadIsolate();
 }
 
-// FIXME: This should be isolate-bound but it breaks building the v8 snapshot at
-// the moment.
-// static blink::IsolateBoundGlobalStaticPtr<V8PerIsolateData> g_main_thread_per_isolate_data = nullptr;
-static V8PerIsolateData* g_main_thread_per_isolate_data = nullptr;
+static blink::IsolateBoundGlobalStaticPtr<V8PerIsolateData> g_main_thread_per_isolate_data = nullptr;
 
 static void BeforeCallEnteredCallback(v8::Isolate* isolate) {
   CHECK(!ScriptForbiddenScope::IsScriptForbidden());

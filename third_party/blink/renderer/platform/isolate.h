@@ -77,7 +77,7 @@ class IsolateBoundGlobalStaticPtr {
   constexpr IsolateBoundGlobalStaticPtr(std::nullptr_t){}
 
   // Emulate being a simple T* from the outside.
-  ALWAYS_INLINE T*& operator=(T* value) { return *GetImpl(); }
+  ALWAYS_INLINE T*& operator=(T* value) { return (*GetImpl() = value); }
   ALWAYS_INLINE T& operator*() { return **GetImpl(); }
   ALWAYS_INLINE T* operator->() { return *GetImpl(); }
   ALWAYS_INLINE operator T*() { return *GetImpl(); }
