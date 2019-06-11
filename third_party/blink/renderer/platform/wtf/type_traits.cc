@@ -37,7 +37,7 @@ GetBanGarbageCollectedAllocTLS() {
 ScopedBanGarbageCollectedAlloc::ScopedBanGarbageCollectedAlloc() {
   auto& ban_garbage_collected_alloc_tls = GetBanGarbageCollectedAllocTLS();
   // Allow nesting, only the last one going out-of-scope will undo the ban.
-  if (!ban_garbage_collected_alloc_tls.IsSet())
+  if (*ban_garbage_collected_alloc_tls == nullptr)
     *ban_garbage_collected_alloc_tls = this;
 }
 
@@ -51,7 +51,7 @@ ScopedBanGarbageCollectedAlloc::~ScopedBanGarbageCollectedAlloc() {
 }  // namespace internal
 
 bool IsGarbageCollectedAllocAllowed() {
-  return !internal::GetBanGarbageCollectedAllocTLS().IsSet();
+  return *internal::GetBanGarbageCollectedAllocTLS() == nullptr;
 }
 
 }  // namespace WTF
