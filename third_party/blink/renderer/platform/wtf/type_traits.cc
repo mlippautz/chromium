@@ -51,7 +51,7 @@ ScopedBanGarbageCollectedAlloc::~ScopedBanGarbageCollectedAlloc() {
 }  // namespace internal
 
 bool IsGarbageCollectedAllocAllowed() {
-  return internal::GetBanGarbageCollectedAllocTLS().IsSet();
+  return !internal::GetBanGarbageCollectedAllocTLS().IsSet();
 }
 
 }  // namespace WTF
